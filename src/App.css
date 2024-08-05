@@ -1,38 +1,650 @@
-.App {
+/* Estilos padrão para todos os tamanhos de tela */
+.Alvara,
+.Darf,
+.Honorarios,
+.pdfUm,
+.pdfDois,
+.pdfTres,
+.pdfQuatro,
+.pdfCinco,
+.resultados {
+  display: none;
+}
+
+
+.pay-method{
+  display: flex;
+}
+
+.choose{
+  width: 100px;
+  height: 60px;
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 0;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 140px;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+select {
+  height: 60px;
+  border-radius: 5px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+select:focus,
+input:focus {
+  outline-color: rgba(0,148,69, 0.3);
+}
+
+button {
+  margin-left: 10px;
+}
+
+.env-selects {
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  border-collapse: collapse;
+  border: solid 1px black;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.titulo,
+.secao {
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: solid 1px black;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.env-table {
+  display: flex;
+  flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.link {
+  cursor: pointer;
+  color: rgba(0,148,69, 0.4);
+}
+
+.link:hover {
+  color: rgba(0,148,69, 1);
+  transition: 1s;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 100%;
+  max-width: 400px;
+}
+
+.env-infos {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 20px;
+  box-shadow: 0 30px 45px #00000026;
+  padding-bottom: 80px;
+}
+
+.check {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 50%;
+  border-color: rgba(0, 0, 0, 0.5); /* Borda preta antes de ser selecionado */
+  position: relative;
+  cursor: pointer;
+  transition: border-color 280ms ease, background-color 280ms ease;
+}
+
+.check::before {
+  content: '';
+  display: block;
+  height: 65%;
+  width: 65%;
+  border-radius: 50%;
+  background-color: rgba(0,148,69, 0.6);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 280ms ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+/* Quando o rádio estiver selecionado */
+input[type="radio"]:checked + .check {
+  border-color: rgba(0,148,69, 0.6); /* Borda verde após ser selecionado */
+}
+
+input[type="radio"]:checked + .check::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+}
+
+.text-radio {
+  margin-left: 8px;
+}
+
+.env-radio {
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  justify-content: space-between;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+}
+
+.text-radio {
+  margin-left: 8px;
+}
+
+.env-checks {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+input {
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  border-radius: 5px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+.env-inputs {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.inputs-dados,
+.aba {
+  width: 100%;
+  max-width: 400px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inputs-dados p,
+.aba p {
+  font-weight: bold;
+  margin-left: 0;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.Alvara,
+.Darf,
+.Honorarios {
+  width: 100%;
+  max-width: 840px;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.env-alvaras {
+  margin-top: 80px;
+}
+
+.env-darfs h5,
+.env-honorarios h5 {
+  margin-top: 40px;
+}
+
+.h2 {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.env-selects {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#alvaraOptions,
+#darfOptions,
+#honorariosOptions {
+  width: 100%; /* Corrigir a largura para 100% */
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+h3 {
+  padding-top: 40px;
+}
+
+.p {
+  width: 100%;
+  max-width: 840px;
+  font-weight: bold;
+  margin-left: 0;
+  margin-top: 40px;
+  padding-bottom: 40px;
+}
+
+.p p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  width: 100%;
+  max-width: 200px;
+  height: 60px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: bold;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  background-color: rgba(0,148,69, 0.7);
+  font-size: 17px;
+}
+
+form{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pay{
+  width: 120px;
+  margin-left: 5px;
+}
+
+.button:hover {
+  background-color: rgba(0,148,69, 0.2);
+  transition: 1s;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.button p {
+  margin: 0;
+}
+
+.env-pdf {
+  margin-top: 80px;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Media Queries para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+  .env-checks,
+  .env-inputs,
+  .Alvara,
+  .Darf,
+  .Honorarios,
+  .env-selects,
+  .inputs-dados,
+  .aba {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  input,
+  select,
+  .button {
+    margin-left: 0;
+    width: 250px;
+  }
+  
+  .check,
+  .text-radio {
+    margin-left: 0;
+  }
+
+  .text-radio{
+    margin-left: 5px;
+  }
+
+  .h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .h2 h2{
+    text-align: center;
+  }
+
+  .p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .env-format{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pdf-viewer-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .pdf-viewer-container > .pdf-viewer {
+    width: 100%;
+    height: 100%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@media (max-width: 480px) {
+  .App {
+    margin: 0 10px;
+  }
+  
+  .env-infos {
+    width: 100%;
+    margin-top: 100px;
+    padding: 10px;
+  }
+  
+  .env-radio,
+  .radio {
+    width: 100%;
+    justify-content: center;
+  }
+
+  input,
+  select,
+  .button {
+    margin-left: 0;
+    width: 250px;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  th,
+  td {
+    padding: 4px;
+  }
+  
+  .titulo,
+  .secao,
+  .p,
+  h3 {
+    font-size: 14px;
+  }
+
+  .h2 h2{
+    text-align: center;
+  }
+
+  .text-radio{
+    margin-left: 5px;
+  }
+
+  .p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .text-radio{
+    margin-left: 5px;
+  }
+
+  .h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .h2 h2{
+    text-align: center;
+  }
+
+  .pdf-viewer-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .pdf-viewer-container > .pdf-viewer {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.metodo{
+  display: flex;
+  justify-content: center;
+}
+
+.ops{
+  width: 220px;
+  height: 180px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 30px 45px #00000026;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.ops:hover{
+  box-shadow: 0 30px 45px rgba(0,148,69, 0.1);
+}
+
+.env-ops{
+  display: flex;
+  width: 750px;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.ops{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.title-ops{
+  display: flex;
+  height: 60px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #00FF77;
+}
+
+.desc-ops{
+  width: 200px;
+  height: 60px;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+}
+
+.valor-ops{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-size: 22px;
+  color: #00FF77;
+  font-weight: 500;
+}
+
+.env-pay{
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#env-pay{
+  display: none;
+}
+
+
+.env-all-pay{
+  display: none;
+  flex-direction: column;
+}
+
+.msgAprovado{
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.msg{
+  display: none;
+}
+
+/* Adicione este CSS ao seu arquivo CSS */
+.loading-spinner {
+  position: fixed;
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #00FF77; 
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+  top: 50%;
+  left: 50%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.msgAprovado{
+  font-size: 22px;
+  font-weight: bold;
+  color: #00FF77;
+}
+
+.sucesso-pay{
+  margin-top: 40px;
+  width: 100%;
+  max-width: 740px;
+  display: flex;
+}
+
+.text-verde{
+  color: #00FF77;
+  margin-left: 10px;
+}
+
+.sucessoPayBuilder{
+  display: flex;
+  flex-direction: column;
+  width: 740px;
+}
+
+.inputs-dados p{
+  display: flex;
+}
+
+.erro{
+  color: red;
+  font-weight: 200;
+  margin-left: 10px;
+}
+
+.inputs-dados{
+  position: relative;
+}
+
+
+.description{
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  top: 48px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 5px;
+  border-radius: 6px;
   color: white;
+  font-size: 20px;
+  max-width: 650px;
+  z-index: 2;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#description{
+  display: none;
 }
