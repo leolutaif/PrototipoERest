@@ -387,6 +387,22 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
 
+  const [checkedA, setCheckedA] = useState(true);
+  const [checkedB, setCheckedB] = useState(false);
+  const [checkedCount, setCheckedCount] = useState(0);
+
+  const handleCheckboxChange = (checkbox) => {
+    if (checkbox === 'A') {
+      setCheckedA(true);
+      setCheckedB(false);
+      setCheckedCount(0)
+    } else if (checkbox === 'B') {
+      setCheckedA(false);
+      setCheckedB(true);
+      setCheckedCount(1)
+    }
+  };
+
   useEffect(() => {
 
 
@@ -602,149 +618,149 @@ const App = () => {
     e.preventDefault();
 
     try {
-        if (nomeUsuario !== "" && telefone !== "" && email !== "" && cpf !== "" && dataNascimento !== "" && processo !== "" && comarca !== "" && vara !== "") {
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                paymentDiv.current.style.display = "flex";
-                envCalcs.current.style.display = "none";
-            }, 2000);
-        }
+      if (nomeUsuario !== "" && telefone !== "" && email !== "" && cpf !== "" && dataNascimento !== "" && processo !== "" && comarca !== "" && vara !== "") {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+          paymentDiv.current.style.display = "flex";
+          envCalcs.current.style.display = "none";
+        }, 2000);
+      }
 
-        const pdfURLs = await gerarEArmazenarPDFs();
+      const pdfURLs = await gerarEArmazenarPDFs();
 
-        let links = {
-            linkPdf1: null,
-            linkPdf2: null,
-            linkPdf3: null,
-            linkPdf4: null,
-            linkPdf5: null,
-            link2Pdf1: null,
-            link2Pdf2: null,
-            link2Pdf3: null,
-            link2Pdf4: null,
-            link2Pdf5: null
+      let links = {
+        linkPdf1: null,
+        linkPdf2: null,
+        linkPdf3: null,
+        linkPdf4: null,
+        linkPdf5: null,
+        link2Pdf1: null,
+        link2Pdf2: null,
+        link2Pdf3: null,
+        link2Pdf4: null,
+        link2Pdf5: null
+      };
+
+      if (anoEquivalenteCinco !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: pdfURLs[3],
+          linkPdf5: pdfURLs[4],
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: pdfURLs[8],
+          link2Pdf5: pdfURLs[9]
         };
-
-        if (anoEquivalenteCinco !== null) {
-            links = {
-                linkPdf1: pdfURLs[0],
-                linkPdf2: pdfURLs[1],
-                linkPdf3: pdfURLs[2],
-                linkPdf4: pdfURLs[3],
-                linkPdf5: pdfURLs[4],
-                link2Pdf1: pdfURLs[5],
-                link2Pdf2: pdfURLs[6],
-                link2Pdf3: pdfURLs[7],
-                link2Pdf4: pdfURLs[8],
-                link2Pdf5: pdfURLs[9]
-            };
-        } else if (anoEquivalenteQuatro !== null) {
-            links = {
-                linkPdf1: pdfURLs[0],
-                linkPdf2: pdfURLs[1],
-                linkPdf3: pdfURLs[2],
-                linkPdf4: pdfURLs[3],
-                linkPdf5: null,
-                link2Pdf1: pdfURLs[5],
-                link2Pdf2: pdfURLs[6],
-                link2Pdf3: pdfURLs[7],
-                link2Pdf4: pdfURLs[8],
-                link2Pdf5: null
-            };
-        } else if (anoEquivalenteTres !== null) {
-            links = {
-                linkPdf1: pdfURLs[0],
-                linkPdf2: pdfURLs[1],
-                linkPdf3: pdfURLs[2],
-                linkPdf4: null,
-                linkPdf5: null,
-                link2Pdf1: pdfURLs[5],
-                link2Pdf2: pdfURLs[6],
-                link2Pdf3: pdfURLs[7],
-                link2Pdf4: null,
-                link2Pdf5: null
-            };
-        } else if (anoEquivalenteDois !== null) {
-            links = {
-                linkPdf1: pdfURLs[0],
-                linkPdf2: pdfURLs[1],
-                linkPdf3: null,
-                linkPdf4: null,
-                linkPdf5: null,
-                link2Pdf1: pdfURLs[5],
-                link2Pdf2: pdfURLs[6],
-                link2Pdf3: null,
-                link2Pdf4: null,
-                link2Pdf5: null
-            };
-        } else if (anoEquivalenteUm !== null) {
-            links = {
-                linkPdf1: pdfURLs[0],
-                linkPdf2: null,
-                linkPdf3: null,
-                linkPdf4: null,
-                linkPdf5: null,
-                link2Pdf1: pdfURLs[5],
-                link2Pdf2: null,
-                link2Pdf3: null,
-                link2Pdf4: null,
-                link2Pdf5: null
-            };
-        }
-
-        setLinkPdf1(links.linkPdf1);
-        setLinkPdf2(links.linkPdf2);
-        setLinkPdf3(links.linkPdf3);
-        setLinkPdf4(links.linkPdf4);
-        setLinkPdf5(links.linkPdf5);
-        setLink2Pdf1(links.link2Pdf1);
-        setLink2Pdf2(links.link2Pdf2);
-        setLink2Pdf3(links.link2Pdf3);
-        setLink2Pdf4(links.link2Pdf4);
-        setLink2Pdf5(links.link2Pdf5);
-
-        const updatedPdfData = {
-            pdfData1: links.linkPdf1,
-            pdfData2: links.linkPdf2,
-            pdfData3: links.linkPdf3,
-            pdfData4: links.linkPdf4,
-            pdfData5: links.linkPdf5,
-            pdfEsc1: links.link2Pdf1,
-            pdfEsc2: links.link2Pdf2,
-            pdfEsc3: links.link2Pdf3,
-            pdfEsc4: links.link2Pdf4,
-            pdfEsc5: links.link2Pdf5
+      } else if (anoEquivalenteQuatro !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: pdfURLs[3],
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: pdfURLs[8],
+          link2Pdf5: null
         };
-
-        setPdfData(updatedPdfData);
-
-        const newProcess = {
-            timestamp: new Date().toISOString(),
-            userData,
-            processData,
-            valueData,
-            valorCalculos,
-            paymentData: { assinatura: "Free" },
-            pdfData: updatedPdfData
+      } else if (anoEquivalenteTres !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: null,
+          link2Pdf5: null
         };
+      } else if (anoEquivalenteDois !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: null,
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: null,
+          link2Pdf4: null,
+          link2Pdf5: null
+        };
+      } else if (anoEquivalenteUm !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: null,
+          linkPdf3: null,
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: null,
+          link2Pdf3: null,
+          link2Pdf4: null,
+          link2Pdf5: null
+        };
+      }
 
-        const response = await axios.post(`https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users/${userId}`, newProcess, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+      setLinkPdf1(links.linkPdf1);
+      setLinkPdf2(links.linkPdf2);
+      setLinkPdf3(links.linkPdf3);
+      setLinkPdf4(links.linkPdf4);
+      setLinkPdf5(links.linkPdf5);
+      setLink2Pdf1(links.link2Pdf1);
+      setLink2Pdf2(links.link2Pdf2);
+      setLink2Pdf3(links.link2Pdf3);
+      setLink2Pdf4(links.link2Pdf4);
+      setLink2Pdf5(links.link2Pdf5);
 
-        console.log('Success:', response.data);
-        if (response.data && response.data.id) {
-            setUserId(response.data.id);
+      const updatedPdfData = {
+        pdfData1: links.linkPdf1,
+        pdfData2: links.linkPdf2,
+        pdfData3: links.linkPdf3,
+        pdfData4: links.linkPdf4,
+        pdfData5: links.linkPdf5,
+        pdfEsc1: links.link2Pdf1,
+        pdfEsc2: links.link2Pdf2,
+        pdfEsc3: links.link2Pdf3,
+        pdfEsc4: links.link2Pdf4,
+        pdfEsc5: links.link2Pdf5
+      };
+
+      setPdfData(updatedPdfData);
+
+      const newProcess = {
+        timestamp: new Date().toISOString(),
+        userData,
+        processData,
+        valueData,
+        valorCalculos,
+        paymentData: { assinatura: "Free" },
+        pdfData: updatedPdfData
+      };
+
+      const response = await axios.post(`https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users/${userId}`, newProcess, {
+        headers: {
+          'Content-Type': 'application/json'
         }
+      });
 
-        Calcular();
+      console.log('Success:', response.data);
+      if (response.data && response.data.id) {
+        setUserId(response.data.id);
+      }
+
+      Calcular();
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
     }
-};
+  };
 
 
   const [userData, setUserData] = useState({
@@ -1193,70 +1209,18 @@ const App = () => {
   }, [brutoHomologado, tributavelHomologado, numeroDeMeses, alvaraUm, alvaraDois, alvaraTres, alvaraQuatro, alvaraCinco, alvaraSeis, alvaraSete, alvaraOito, alvaraNove, alvaraDez, darfUm, darfDois, darfTres, darfQuatro, darfCinco, darfSeis, darfSete, darfOito, darfNove, darfDez, honorariosUm, honorariosDois, honorariosTres, honorariosQuatro, honorariosCinco, honorariosSeis, honorariosSete, honorariosOito, honorariosNove, honorariosDez, alvaraUmData, alvaraDoisData, alvaraTresData, alvaraQuatroData, alvaraCincoData, alvaraSeisData, alvaraSeteData, alvaraOitoData, alvaraNoveData, alvaraDezData, darfUmData, darfDoisData, darfTresData, darfQuatroData, darfCincoData, darfSeisData, darfSeteData, darfOitoData, darfNoveData, darfDezData, honorariosUmData, honorariosDoisData, honorariosTresData, honorariosQuatroData, honorariosCincoData, honorariosSeisData, honorariosSeteData, honorariosOitoData, honorariosNoveData, honorariosDezData, indiceUm, indiceDois, indiceTres, indiceQuatro, indiceCinco, indiceSeis, indiceSete, indiceOito, indiceNove, indiceDez, anoEquivalenteUm, anoEquivalenteDois, anoEquivalenteTres, anoEquivalenteQuatro, anoEquivalenteCinco, anoEquivalenteSeis, anoEquivalenteSete, anoEquivalenteOito, anoEquivalenteNove, anoEquivalenteDez, rendTribUmMes, rendTribDoisMes, rendTribTresMes, rendTribQuatroMes, rendTribCincoMes, rendTribSeisMes, rendTribSeteMes, rendTribOitoMes, rendTribNoveMes, rendTribDezMes, exUm, exDois, exTres, exQuatro, exCinco, exSeis, exSete, exOito, exNove, exDez, corrigidoAlvaraUm, corrigidoAlvaraDois, corrigidoAlvaraTres, corrigidoAlvaraQuatro, corrigidoAlvaraCinco, corrigidoAlvaraSeis, corrigidoAlvaraSete, corrigidoAlvaraOito, corrigidoAlvaraNove, corrigidoAlvaraDez, corrigidoDarfUm, corrigidoDarfDois, corrigidoDarfTres, corrigidoDarfQuatro, corrigidoDarfCinco, corrigidoDarfSeis, corrigidoDarfSete, corrigidoDarfOito, corrigidoDarfNove, corrigidoDarfDez, mesUm, mesDois, mesTres, mesQuatro, mesCinco, mesSeis, mesSete, mesOito, mesNove, mesDez, tribAlvaraUm, tribAlvaraDois, tribAlvaraTres, tribAlvaraQuatro, tribAlvaraCinco, tribAlvaraSeis, tribAlvaraSete, tribAlvaraOito, tribAlvaraNove, tribAlvaraDez, tribHonorariosUm, tribHonorariosDois, tribHonorariosTres, tribHonorariosQuatro, tribHonorariosCinco, tribHonorariosSeis, tribHonorariosSete, tribHonorariosOito, tribHonorariosNove, tribHonorariosDez, isentoAlvaraUm, isentoAlvaraDois, isentoAlvaraTres, isentoAlvaraQuatro, isentoAlvaraCinco, isentoAlvaraSeis, isentoAlvaraSete, isentoAlvaraOito, isentoAlvaraNove, isentoAlvaraDez]);
 
 
+  const [rendTrib1, setRendTrib1] = useState(null)
+  const [rendTrib2, setRendTrib2] = useState(null)
+  const [rendTrib3, setRendTrib3] = useState(null)
+  const [rendTrib4, setRendTrib4] = useState(null)
+  const [rendTrib5, setRendTrib5] = useState(null)
+  const [rendTrib6, setRendTrib6] = useState(null)
+  const [rendTrib7, setRendTrib7] = useState(null)
+  const [rendTrib8, setRendTrib8] = useState(null)
+  const [rendTrib9, setRendTrib9] = useState(null)
+  const [rendTrib10, setRendTrib10] = useState(null)
 
-  useEffect(() => {
-    setValorCalculos(prevValorCalculos => ({
-      ...prevValorCalculos,
-      somaDarf: somaDarf,
-      somaAlvara: somaAlvara,
-      numeroDeMeses: numeroDeMeses,
-      brutoHomologado: brutoHomologado,
-      tributavelHomologado: tributavelHomologado,
-      rendTribUm: parseFloat(rendTribUmAlvara) - parseFloat(rendTribUmHonorarios),
-      rendTribDois: parseFloat(rendTribDoisAlvara) - parseFloat(rendTribDoisHonorarios),
-      rendTribTres: parseFloat(rendTribTresAlvara) - parseFloat(rendTribTresHonorarios),
-      rendTribQuatro: parseFloat(rendTribQuatroAlvara) - parseFloat(rendTribQuatroHonorarios),
-      rendTribCinco: parseFloat(rendTribCincoAlvara) - parseFloat(rendTribCincoHonorarios),
-      rendTribSeis: parseFloat(rendTribSeisAlvara) - parseFloat(rendTribSeisHonorarios),
-      rendTribSete: parseFloat(rendTribSeteAlvara) - parseFloat(rendTribSeteHonorarios),
-      rendTribOito: parseFloat(rendTribOitoAlvara) - parseFloat(rendTribOitoHonorarios),
-      rendTribNove: parseFloat(rendTribNoveAlvara) - parseFloat(rendTribNoveHonorarios),
-      rendTribDez: parseFloat(rendTribDezAlvara) - parseFloat(rendTribDezHonorarios),
-      irrfUm: rendTribUmDarf,
-      irrfDois: rendTribDoisDarf,
-      irrfTres: rendTribTresDarf,
-      irrfQuatro: rendTribQuatroDarf,
-      irrfCinco: rendTribCincoDarf,
-      irrfSeis: rendTribSeisDarf,
-      irrfSete: rendTribSeteDarf,
-      irrfOito: rendTribOitoDarf,
-      irrfNove: rendTribNoveDarf,
-      irrfDez: rendTribDezDarf,
-      irpfUm: IrpfUm,
-      irpfDois: IrpfDois,
-      irpfTres: IrpfTres,
-      irpfQuatro: IrpfQuatro,
-      irpfCinco: IrpfCinco,
-      irpfSeis: IrpfSeis,
-      irpfSete: IrpfSete,
-      irpfOito: IrpfOito,
-      irpfNove: IrpfNove,
-      irpfDez: IrpfDez,
-      selicUm: selicUm,
-      selicDois: selicDois,
-      selicTres: selicTres,
-      selicQuatro: selicQuatro,
-      selicCinco: selicCinco,
-      finalUmCorrigido: finalUmCorrigido,
-      finalDoisCorrigido: finalDoisCorrigido,
-      finalTresCorrigido: finalTresCorrigido,
-      finalQuatroCorrigido: finalQuatroCorrigido,
-      finalCincoCorrigido: finalCincoCorrigido,
-    }));
-  }, [
-    somaDarf, somaAlvara, numeroDeMeses, brutoHomologado, tributavelHomologado,
-    rendTribUmAlvara, rendTribUmHonorarios, rendTribDoisAlvara, rendTribDoisHonorarios,
-    rendTribTresAlvara, rendTribTresHonorarios, rendTribQuatroAlvara, rendTribQuatroHonorarios,
-    rendTribCincoAlvara, rendTribCincoHonorarios, rendTribSeisAlvara, rendTribSeisHonorarios,
-    rendTribSeteAlvara, rendTribSeteHonorarios, rendTribOitoAlvara, rendTribOitoHonorarios,
-    rendTribNoveAlvara, rendTribNoveHonorarios, rendTribDezAlvara, rendTribDezHonorarios,
-    rendTribUmDarf, rendTribDoisDarf, rendTribTresDarf, rendTribQuatroDarf, rendTribCincoDarf,
-    rendTribSeisDarf, rendTribSeteDarf, rendTribOitoDarf, rendTribNoveDarf, rendTribDezDarf,
-    IrpfUm, IrpfDois, IrpfTres, IrpfQuatro, IrpfCinco, IrpfSeis, IrpfSete, IrpfOito, IrpfNove, IrpfDez,
-    selicUm, selicDois, selicTres, selicQuatro, selicCinco,
-    finalUmCorrigido, finalDoisCorrigido, finalTresCorrigido, finalQuatroCorrigido,
-    finalCincoCorrigido
-  ]);
+
 
 
 
@@ -1559,11 +1523,9 @@ const App = () => {
       }
     };
 
+
     calculateSums();
   }, [tribHonorariosUm, tribHonorariosDois, tribHonorariosTres, tribHonorariosQuatro, tribHonorariosCinco, tribHonorariosSeis, tribHonorariosSete, tribHonorariosOito, tribHonorariosNove, tribHonorariosDez, exUm, exDois, exTres, exQuatro, exCinco, exSeis, exSete, exOito, exNove, exDez, honorariosUm, honorariosDois, honorariosTres, honorariosQuatro, honorariosCinco, honorariosSeis, honorariosSete, honorariosOito, honorariosNove, honorariosDez]);
-
-
-
 
 
   useEffect(() => {
@@ -1920,6 +1882,11 @@ const App = () => {
   const [tableTribHonorariosTres, setTableTribHonorariosTres] = useState(null)
   const [tableTribHonorariosQuatro, setTableTribHonorariosQuatro] = useState(null)
   const [tableTribHonorariosCinco, setTableTribHonorariosCinco] = useState(null)
+  const [tableTribHonorariosSeis, setTableTribHonorariosSeis] = useState(null)
+  const [tableTribHonorariosSete, setTableTribHonorariosSete] = useState(null)
+  const [tableTribHonorariosOito, setTableTribHonorariosOito] = useState(null)
+  const [tableTribHonorariosNove, setTableTribHonorariosNove] = useState(null)
+  const [tableTribHonorariosDez, setTableTribHonorariosDez] = useState(null)
 
 
 
@@ -1958,7 +1925,12 @@ const App = () => {
         setTableTribHonorariosDois,
         setTableTribHonorariosTres,
         setTableTribHonorariosQuatro,
-        setTableTribHonorariosCinco
+        setTableTribHonorariosCinco,
+        setTableTribHonorariosSeis,
+        setTableTribHonorariosSete,
+        setTableTribHonorariosOito,
+        setTableTribHonorariosNove,
+        setTableTribHonorariosDez
       ];
 
       sortedYears.forEach((year, index) => {
@@ -2417,32 +2389,32 @@ const App = () => {
     // Encontrar a tabela de alíquotas baseado no ano equivalente
     let tabela = tabelaIRRF[anoEq] || tabelaIRRF["2016-2022"];
 
-    // Encontrar a faixa de alíquota correspondente à rendaHonorarios
+    // Calcular o stepZero
+    const stepZero = (parseFloat(rendaAlvara) - parseFloat(rendaHonorarios)) / 100;
+
+    // Calcular o stepUm
+    const stepUm = stepZero / rendaMes;
+
+    // Encontrar a faixa de alíquota correspondente ao valor de stepUm
     let aliquota = 0;
     let deducao = 0;
 
     for (let i = 0; i < tabela.length; i++) {
       const faixa = tabela[i].faixa;
-      if (rendaHonorarios >= faixa.inicio && rendaHonorarios <= faixa.fim) {
+      if (stepUm >= faixa.inicio && stepUm <= faixa.fim) {
         aliquota = tabela[i].aliquota;
         deducao = tabela[i].deducao;
         break;
       }
     }
 
-    // Calcular o IRPF conforme a fórmula fornecida
-    const stepZero = (parseFloat(rendaAlvara) - parseFloat(rendaHonorarios)) / 100;
-
-    const stepUm = stepZero / rendaMes;
-
+    // Calcular os steps subsequentes
     const stepDois = aliquota * 0.01;
-
     const stepTres = stepUm * stepDois;
-
     const stepQuatro = stepTres - deducao;
-
     const stepCinco = stepQuatro * rendaMes;
 
+    // Calcular o IRPF
     const IRPF = (parseFloat(rendaDarf) / 100 - stepCinco) * 100;
 
     return IRPF;
@@ -2457,7 +2429,7 @@ const App = () => {
       for (let i = 0; i < 10; i++) {
         const prefixo = prefixos[i];
         const rendaAlvara = eval(`rendTrib${prefixo}Alvara`);
-        const rendaHonorarios = eval(`rendTrib${prefixo}Honorarios`);
+        const rendaHonorarios = eval(`tableTribHonorarios${prefixo}`);
         const rendaDarf = eval(`rendTrib${prefixo}Darf`);
         const rendaMes = eval(`rendTrib${prefixo}Mes`);
         const anoEq = eval(`anoEquivalente${prefixo}`);
@@ -2484,30 +2456,18 @@ const App = () => {
     setIrpfNove(irpfResultados[8]);
     setIrpfDez(irpfResultados[9]);
   }, [
-    rendTribUmHonorarios, rendTribUmAlvara, rendTribUmMes, anoEquivalenteUm, rendTribUmDarf,
-    rendTribDoisHonorarios, rendTribDoisAlvara, rendTribDoisMes, anoEquivalenteDois, rendTribDoisDarf,
-    rendTribTresHonorarios, rendTribTresAlvara, rendTribTresMes, anoEquivalenteTres, rendTribTresDarf,
-    rendTribQuatroHonorarios, rendTribQuatroAlvara, rendTribQuatroMes, anoEquivalenteQuatro, rendTribQuatroDarf,
-    rendTribCincoHonorarios, rendTribCincoAlvara, rendTribCincoMes, anoEquivalenteCinco, rendTribCincoDarf,
-    rendTribSeisHonorarios, rendTribSeisAlvara, rendTribSeisMes, anoEquivalenteSeis, rendTribSeisDarf,
-    rendTribSeteHonorarios, rendTribSeteAlvara, rendTribSeteMes, anoEquivalenteSete, rendTribSeteDarf,
-    rendTribOitoHonorarios, rendTribOitoAlvara, rendTribOitoMes, anoEquivalenteOito, rendTribOitoDarf,
-    rendTribNoveHonorarios, rendTribNoveAlvara, rendTribNoveMes, anoEquivalenteNove, rendTribNoveDarf,
-    rendTribDezHonorarios, rendTribDezAlvara, rendTribDezMes, anoEquivalenteDez, rendTribDezDarf,
+    tableTribHonorariosUm, rendTribUmAlvara, rendTribUmMes, anoEquivalenteUm, rendTribUmDarf,
+    tableTribHonorariosDois, rendTribDoisAlvara, rendTribDoisMes, anoEquivalenteDois, rendTribDoisDarf,
+    tableTribHonorariosTres, rendTribTresAlvara, rendTribTresMes, anoEquivalenteTres, rendTribTresDarf,
+    tableTribHonorariosQuatro, rendTribQuatroAlvara, rendTribQuatroMes, anoEquivalenteQuatro, rendTribQuatroDarf,
+    tableTribHonorariosCinco, rendTribCincoAlvara, rendTribCincoMes, anoEquivalenteCinco, rendTribCincoDarf,
+    tableTribHonorariosSeis, rendTribSeisAlvara, rendTribSeisMes, anoEquivalenteSeis, rendTribSeisDarf,
+    tableTribHonorariosSete, rendTribSeteAlvara, rendTribSeteMes, anoEquivalenteSete, rendTribSeteDarf,
+    tableTribHonorariosOito, rendTribOitoAlvara, rendTribOitoMes, anoEquivalenteOito, rendTribOitoDarf,
+    tableTribHonorariosNove, rendTribNoveAlvara, rendTribNoveMes, anoEquivalenteNove, rendTribNoveDarf,
+    tableTribHonorariosDez, rendTribDezAlvara, rendTribDezMes, anoEquivalenteDez, rendTribDezDarf,
   ]);
 
-  const [checkedA, setCheckedA] = useState(true);
-  const [checkedB, setCheckedB] = useState(false);
-
-  const handleCheckboxChange = (checkbox) => {
-    if (checkbox === 'A') {
-      setCheckedA(true);
-      setCheckedB(false);
-    } else if (checkbox === 'B') {
-      setCheckedA(false);
-      setCheckedB(true);
-    }
-  };
 
   const handleValorChange = (event, setter) => {
     const inputValue = event.target.value;
@@ -5285,6 +5245,84 @@ const App = () => {
   }, [paymentCompletedUm, paymentCompletedDois, paymentCompletedTres]);
 
 
+  useEffect(() => {
+    if (checkedCount === 0) {
+      setRendTrib1(parseFloat(rendTribUmAlvara) - parseFloat(rendTribUmHonorarios))
+      setRendTrib2(parseFloat(rendTribDoisAlvara) - parseFloat(rendTribDoisHonorarios))
+      setRendTrib3(parseFloat(rendTribTresAlvara) - parseFloat(rendTribTresHonorarios))
+      setRendTrib4(parseFloat(rendTribQuatroAlvara) - parseFloat(rendTribQuatroHonorarios))
+      setRendTrib5(parseFloat(rendTribCincoAlvara) - parseFloat(rendTribCincoHonorarios))
+      setRendTrib6(parseFloat(rendTribSeisAlvara) - parseFloat(rendTribSeisHonorarios))
+      setRendTrib7(parseFloat(rendTribSeteAlvara) - parseFloat(rendTribSeteHonorarios))
+      setRendTrib8(parseFloat(rendTribOitoAlvara) - parseFloat(rendTribOitoHonorarios))
+      setRendTrib9(parseFloat(rendTribNoveAlvara) - parseFloat(rendTribNoveHonorarios))
+      setRendTrib10(parseFloat(rendTribDezAlvara) - parseFloat(rendTribDezHonorarios))
+    } else if(checkedCount === 1) {
+      setRendTrib1(parseFloat(rendTribUmAlvara) - parseFloat(tableTribHonorariosUm))
+      setRendTrib2(null)
+      setRendTrib3(null)
+      setRendTrib4(null)
+      setRendTrib5(null)
+      setRendTrib6(null)
+      setRendTrib7(null)
+      setRendTrib8(null)
+      setRendTrib9(null)
+      setRendTrib10(null)
+    }
+  }, [checkedCount, rendTribCincoAlvara, rendTribCincoHonorarios, rendTribDezAlvara, rendTribDezHonorarios, rendTribDoisAlvara, rendTribDoisHonorarios, rendTribNoveAlvara, rendTribNoveHonorarios, rendTribOitoAlvara, rendTribOitoHonorarios, rendTribQuatroAlvara, rendTribQuatroHonorarios, rendTribSeisAlvara, rendTribSeisHonorarios, rendTribSeteAlvara, rendTribSeteHonorarios, rendTribTresAlvara, rendTribTresHonorarios, rendTribUmAlvara, rendTribUmHonorarios, tableTribHonorariosUm])
+
+  useEffect(() => {
+    setValorCalculos(prevValorCalculos => ({
+      ...prevValorCalculos,
+      somaDarf: somaDarf,
+      somaAlvara: somaAlvara,
+      numeroDeMeses: numeroDeMeses,
+      brutoHomologado: brutoHomologado,
+      tributavelHomologado: tributavelHomologado,
+      rendTribUm: rendTrib1,
+      rendTribDois: rendTrib2,
+      rendTribTres: rendTrib3,
+      rendTribQuatro: rendTrib4,
+      rendTribCinco: rendTrib5,
+      rendTribSeis: rendTrib6,
+      rendTribSete: rendTrib7,
+      rendTribOito: rendTrib8,
+      rendTribNove: rendTrib9,
+      rendTribDez: rendTrib10,
+      irrfUm: rendTribUmDarf,
+      irrfDois: rendTribDoisDarf,
+      irrfTres: rendTribTresDarf,
+      irrfQuatro: rendTribQuatroDarf,
+      irrfCinco: rendTribCincoDarf,
+      irrfSeis: rendTribSeisDarf,
+      irrfSete: rendTribSeteDarf,
+      irrfOito: rendTribOitoDarf,
+      irrfNove: rendTribNoveDarf,
+      irrfDez: rendTribDezDarf,
+      irpfUm: IrpfUm,
+      irpfDois: IrpfDois,
+      irpfTres: IrpfTres,
+      irpfQuatro: IrpfQuatro,
+      irpfCinco: IrpfCinco,
+      irpfSeis: IrpfSeis,
+      irpfSete: IrpfSete,
+      irpfOito: IrpfOito,
+      irpfNove: IrpfNove,
+      irpfDez: IrpfDez,
+      selicUm: selicUm,
+      selicDois: selicDois,
+      selicTres: selicTres,
+      selicQuatro: selicQuatro,
+      selicCinco: selicCinco,
+      finalUmCorrigido: finalUmCorrigido,
+      finalDoisCorrigido: finalDoisCorrigido,
+      finalTresCorrigido: finalTresCorrigido,
+      finalQuatroCorrigido: finalQuatroCorrigido,
+      finalCincoCorrigido: finalCincoCorrigido,
+    }));
+  }, [somaDarf, somaAlvara, numeroDeMeses, brutoHomologado, tributavelHomologado, rendTribUmAlvara, rendTribUmHonorarios, rendTribDoisAlvara, rendTribDoisHonorarios, rendTribTresAlvara, rendTribTresHonorarios, rendTribQuatroAlvara, rendTribQuatroHonorarios, rendTribCincoAlvara, rendTribCincoHonorarios, rendTribSeisAlvara, rendTribSeisHonorarios, rendTribSeteAlvara, rendTribSeteHonorarios, rendTribOitoAlvara, rendTribOitoHonorarios, rendTribNoveAlvara, rendTribNoveHonorarios, rendTribDezAlvara, rendTribDezHonorarios, rendTribUmDarf, rendTribDoisDarf, rendTribTresDarf, rendTribQuatroDarf, rendTribCincoDarf, rendTribSeisDarf, rendTribSeteDarf, rendTribOitoDarf, rendTribNoveDarf, rendTribDezDarf, IrpfUm, IrpfDois, IrpfTres, IrpfQuatro, IrpfCinco, IrpfSeis, IrpfSete, IrpfOito, IrpfNove, IrpfDez, selicUm, selicDois, selicTres, selicQuatro, selicCinco, finalUmCorrigido, finalDoisCorrigido, finalTresCorrigido, finalQuatroCorrigido, finalCincoCorrigido, rendTrib1, rendTrib2, rendTrib3, rendTrib4, rendTrib5, rendTrib6, rendTrib7, rendTrib8, rendTrib9, rendTrib10]);
+
+
 
   return (
     <div className="App">
@@ -5324,6 +5362,7 @@ const App = () => {
                 <input
                   type="radio"
                   name="option"
+                  id="sameYear"
                   checked={checkedB}
                   onChange={() => handleCheckboxChange('B')}
                   style={{ display: 'none' }} // Hide the original radio input
@@ -5790,11 +5829,11 @@ const App = () => {
               <div ref={honorariosStyleTres} className="Honorarios">
                 <div className="aba">
                   <p>Valor Honorarios 3</p>
-                  <input onChange={(event) => handleValorChange(event, setHonorariosTres)} type="text" value={formatCurrency(honorariosTres)} />
+                  <input id="honorarios3" onChange={(event) => handleValorChange(event, setHonorariosTres)} type="text" value={formatCurrency(honorariosTres)} />
                 </div>
                 <div className="aba">
                   <p>Ano Honorarios 3</p>
-                  <input type="text" maxLength="4" value={honorariosTresData} onChange={(e) => setHonorariosTresData(e.target.value)} />
+                  <input id="anohonorarios3" type="text" maxLength="4" value={honorariosTresData} onChange={(e) => setHonorariosTresData(e.target.value)} />
                 </div>
               </div>
               <div ref={honorariosStyleQuatro} className="Honorarios">
