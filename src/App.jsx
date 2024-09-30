@@ -3,81 +3,286 @@ import './App.css';
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css"
 import { FaArrowRight } from "react-icons/fa";
-import logo from "./e-resti.jpg"
+import logo from "./e-resti.png"
 import { FaPix } from "react-icons/fa6";
 import { CiCreditCard1 } from "react-icons/ci";
 import emailjs from 'emailjs-com';
-import { storage, ref, uploadBytes, getDownloadURL } from './firebase-config';
+import { storage, ref, uploadBytes, getDownloadURL } from '../firebase-config';
 import { Document, Page, View, Text, StyleSheet, Image, pdf } from '@react-pdf/renderer';
 import { FaRegQuestionCircle } from "react-icons/fa";
+import logoIr360 from "./logoir360.png"
+import { v4 as uuidv4 } from 'uuid';  // Importa a função uuidv4
 
 const indices_IPCA_E = [
-  { data: '01/2019', indice: 1.345571546707 },
-  { data: '02/2019', indice: 1.341546905989 },
-  { data: '03/2019', indice: 1.337001102241 },
-  { data: '04/2019', indice: 1.329820073843 },
-  { data: '05/2019', indice: 1.320313814379 },
-  { data: '06/2019', indice: 1.315708833462 },
-  { data: '07/2019', indice: 1.314919881533 },
-  { data: '08/2019', indice: 1.313737517767 },
-  { data: '09/2019', indice: 1.312687367873 },
-  { data: '10/2019', indice: 1.311507011562 },
-  { data: '11/2019', indice: 1.310327716617 },
-  { data: '12/2019', indice: 1.308495822466 },
-  { data: '01/2020', indice: 1.294899378987 },
-  { data: '02/2020', indice: 1.285770409082 },
-  { data: '03/2020', indice: 1.282947923650 },
-  { data: '04/2020', indice: 1.282691385373 },
-  { data: '05/2020', indice: 1.282819667340 },
-  { data: '06/2020', indice: 1.290433223358 },
-  { data: '07/2020', indice: 1.290175188320 },
-  { data: '08/2020', indice: 1.286316239601 },
-  { data: '09/2020', indice: 1.283364501248 },
-  { data: '10/2020', indice: 1.277615232701 },
-  { data: '11/2020', indice: 1.265717488311 },
-  { data: '12/2020', indice: 1.255547553131 },
-  { data: '01/2021', indice: 1.242378342698 },
-  { data: '02/2021', indice: 1.232762792913 },
-  { data: '03/2021', indice: 1.226873798680 },
-  { data: '04/2021', indice: 1.215569006915 },
-  { data: '05/2021', indice: 1.208319092361 },
-  { data: '06/2021', indice: 1.203025778934 },
-  { data: '07/2021', indice: 1.193122859203 },
-  { data: '08/2021', indice: 1.184593783958 },
-  { data: '09/2021', indice: 1.174143903219 },
-  { data: '10/2021', indice: 1.160909534526 },
-  { data: '11/2021', indice: 1.147143808820 },
-  { data: '12/2021', indice: 1.133877442740 },
-  { data: '01/2022', indice: 1.125101649871 },
-  { data: '02/2022', indice: 1.118613690466 },
-  { data: '03/2022', indice: 1.107647975509 },
-  { data: '04/2022', indice: 1.097224344238 },
-  { data: '05/2022', indice: 1.078565166852 },
-  { data: '06/2022', indice: 1.072238957006 },
-  { data: '07/2022', indice: 1.064891207673 },
-  { data: '08/2022', indice: 1.063508646432 },
-  { data: '09/2022', indice: 1.071329350692 },
-  { data: '10/2022', indice: 1.075307990256 },
-  { data: '11/2022', indice: 1.073590245863 },
-  { data: '12/2022', indice: 1.067930215720 },
-  { data: '01/2023', indice: 1.062405706048 },
-  { data: '02/2023', indice: 1.056594436647 },
-  { data: '03/2023', indice: 1.048624887501 },
-  { data: '04/2023', indice: 1.041438958687 },
-  { data: '05/2023', indice: 1.035536401200 },
-  { data: '06/2023', indice: 1.030281963187 },
-  { data: '07/2023', indice: 1.029870015181 },
-  { data: '08/2023', indice: 1.030591429182 },
-  { data: '09/2023', indice: 1.027713830457 },
-  { data: '10/2023', indice: 1.024129377635 },
-  { data: '11/2023', indice: 1.021983212888 },
-  { data: '12/2023', indice: 1.018621761076 },
-  { data: '01/2024', indice: 1.014563507048 },
-  { data: '02/2024', indice: 1.011428080000 },
-  { data: '03/2024', indice: 1.003600000000 },
-  { data: '04/2024', indice: 1.000000000000 }
+  {
+    "data": "01/2019",
+    "indice": 1.3636909188
+  },
+  {
+    "data": "02/2019",
+    "indice": 1.3596120826
+  },
+  {
+    "data": "03/2019",
+    "indice": 1.3550050654
+  },
+  {
+    "data": "04/2019",
+    "indice": 1.3477273378
+  },
+  {
+    "data": "05/2019",
+    "indice": 1.3380930677
+  },
+  {
+    "data": "06/2019",
+    "indice": 1.3334260764
+  },
+  {
+    "data": "07/2019",
+    "indice": 1.3326265005
+  },
+  {
+    "data": "08/2019",
+    "indice": 1.3314282151
+  },
+  {
+    "data": "09/2019",
+    "indice": 1.330363924
+  },
+  {
+    "data": "10/2019",
+    "indice": 1.3291676731
+  },
+  {
+    "data": "11/2019",
+    "indice": 1.3279724978
+  },
+  {
+    "data": "12/2019",
+    "indice": 1.3261159355
+  },
+  {
+    "data": "01/2020",
+    "indice": 1.3123364033
+  },
+  {
+    "data": "02/2020",
+    "indice": 1.3030845033
+  },
+  {
+    "data": "03/2020",
+    "indice": 1.3002240105
+  },
+  {
+    "data": "04/2020",
+    "indice": 1.2999640177
+  },
+  {
+    "data": "05/2020",
+    "indice": 1.3000940271
+  },
+  {
+    "data": "06/2020",
+    "indice": 1.3078101067
+  },
+  {
+    "data": "07/2020",
+    "indice": 1.307548597
+  },
+  {
+    "data": "08/2020",
+    "indice": 1.3036376839
+  },
+  {
+    "data": "09/2020",
+    "indice": 1.3006461977
+  },
+  {
+    "data": "10/2020",
+    "indice": 1.2948195099
+  },
+  {
+    "data": "11/2020",
+    "indice": 1.2827615513
+  },
+  {
+    "data": "12/2020",
+    "indice": 1.2724546685
+  },
+  {
+    "data": "01/2021",
+    "indice": 1.2591081224
+  },
+  {
+    "data": "02/2021",
+    "indice": 1.2493630903
+  },
+  {
+    "data": "03/2021",
+    "indice": 1.2433947953
+  },
+  {
+    "data": "04/2021",
+    "indice": 1.231937774
+  },
+  {
+    "data": "05/2021",
+    "indice": 1.2245902326
+  },
+  {
+    "data": "06/2021",
+    "indice": 1.2192256398
+  },
+  {
+    "data": "07/2021",
+    "indice": 1.209189368
+  },
+  {
+    "data": "08/2021",
+    "indice": 1.2005454408
+  },
+  {
+    "data": "09/2021",
+    "indice": 1.1899548427
+  },
+  {
+    "data": "10/2021",
+    "indice": 1.176542261
+  },
+  {
+    "data": "11/2021",
+    "indice": 1.162591167
+  },
+  {
+    "data": "12/2021",
+    "indice": 1.1491461569
+  },
+  {
+    "data": "01/2022",
+    "indice": 1.1402521898
+  },
+  {
+    "data": "02/2022",
+    "indice": 1.133676864
+  },
+  {
+    "data": "03/2022",
+    "indice": 1.1225634855
+  },
+  {
+    "data": "04/2022",
+    "indice": 1.1119994904
+  },
+  {
+    "data": "05/2022",
+    "indice": 1.0930890498
+  },
+  {
+    "data": "06/2022",
+    "indice": 1.0866776517
+  },
+  {
+    "data": "07/2022",
+    "indice": 1.079230958
+  },
+  {
+    "data": "08/2022",
+    "indice": 1.0778297793
+  },
+  {
+    "data": "09/2022",
+    "indice": 1.0857557966
+  },
+  {
+    "data": "10/2022",
+    "indice": 1.0897880123
+  },
+  {
+    "data": "11/2022",
+    "indice": 1.0880471369
+  },
+  {
+    "data": "12/2022",
+    "indice": 1.0823108892
+  },
+  {
+    "data": "01/2023",
+    "indice": 1.0767119868
+  },
+  {
+    "data": "02/2023",
+    "indice": 1.0708224633
+  },
+  {
+    "data": "03/2023",
+    "indice": 1.0627455967
+  },
+  {
+    "data": "04/2023",
+    "indice": 1.0554629027
+  },
+  {
+    "data": "05/2023",
+    "indice": 1.0494808618
+  },
+  {
+    "data": "06/2023",
+    "indice": 1.0441556679
+  },
+  {
+    "data": "07/2023",
+    "indice": 1.0437381726
+  },
+  {
+    "data": "08/2023",
+    "indice": 1.0444693011
+  },
+  {
+    "data": "09/2023",
+    "indice": 1.0415529529
+  },
+  {
+    "data": "10/2023",
+    "indice": 1.0379202321
+  },
+  {
+    "data": "11/2023",
+    "indice": 1.0357451672
+  },
+  {
+    "data": "12/2023",
+    "indice": 1.0323384503
+  },
+  {
+    "data": "01/2024",
+    "indice": 1.0282255481
+  },
+  {
+    "data": "02/2024",
+    "indice": 1.0250478996
+  },
+  {
+    "data": "03/2024",
+    "indice": 1.0171144073
+  },
+  {
+    "data": "04/2024",
+    "indice": 1.0134659299
+  },
+  {
+    "data": "05/2024",
+    "indice": 1.0113421115
+  },
+  {
+    "data": "06/2024",
+    "indice": 1.0069117
+  },
+  {
+    "data": "07/2024",
+    "indice": 1.003
+  }
 ];
-
 
 
 const App = () => {
@@ -363,6 +568,7 @@ const App = () => {
   const [finalQuatroCorrigido, setFinalQuatroCorrigido] = useState(null)
   const [finalCincoCorrigido, setFinalCincoCorrigido] = useState(null)
 
+  const [fontePagadora, setFontePagadora] = useState("")
 
   const [finalSomaCorrigido, setFinalSomaCorrigido] = useState(null)
 
@@ -495,18 +701,6 @@ const App = () => {
     )
   }, [finalUmCorrigido, finalDoisCorrigido, finalTresCorrigido, finalQuatroCorrigido, finalCincoCorrigido])
 
-
-  function MostrarCalculos() {
-    if (estado === 0) {
-      calculosRef.current.style.display = "block";
-      setEstado(1)
-    }
-    else {
-      calculosRef.current.style.display = "none";
-      setEstado(0)
-    }
-  }
-
   const [loading, setLoading] = useState(false);
 
   const [nomeUsuario, setNomeUsuario] = useState("")
@@ -517,6 +711,7 @@ const App = () => {
   const [processo, setProcesso] = useState("")
   const [comarca, setComarca] = useState("")
   const [vara, setVara] = useState("")
+  const [INSS, setINSS] = useState("")
 
   const [nomeErro, setNomeErro] = useState("");
   const [emailErro, setEmailErro] = useState("");
@@ -543,6 +738,57 @@ const App = () => {
     if (resto !== parseInt(cpf.substring(10, 11))) return false;
     return true;
   }
+
+  const validarCNPJ = (cnpj) => {
+    cnpj = cnpj.replace(/[^\d]+/g, '');
+    if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+
+    // Cálculo do primeiro dígito verificador
+    let soma = 0;
+    let pos = 5;
+    for (let i = 0; i < 12; i++) {
+      soma += cnpj.charAt(i) * pos--;
+      if (pos < 2) pos = 9;
+    }
+    let resultado = (soma % 11) < 2 ? 0 : 11 - (soma % 11);
+    if (resultado !== parseInt(cnpj.charAt(12))) return false;
+
+    // Cálculo do segundo dígito verificador
+    soma = 0;
+    pos = 6;
+    for (let i = 0; i < 13; i++) {
+      soma += cnpj.charAt(i) * pos--;
+      if (pos < 2) pos = 9;
+    }
+    resultado = (soma % 11) < 2 ? 0 : 11 - (soma % 11);
+    return resultado === parseInt(cnpj.charAt(13));
+  };
+
+  // Formatação de CNPJ
+  const formatarCNPJ = (cnpj) => {
+    if (!cnpj) return '';
+    cnpj = cnpj.replace(/[^\d]+/g, '');
+    return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+  };
+
+  // Função de manipulação para CNPJ
+  const handleCNPJChange = (event) => {
+    let { value } = event.target;
+    value = value.replace(/[^\d]+/g, '');
+
+    if (value.length <= 14) {
+      setCnpj(value);
+      setCnpjErro('');
+
+      if (value.length === 14 && !validarCNPJ(value)) {
+        setCnpjErro('CNPJ inválido');
+      }
+    }
+  };
+
+  // Estados para CNPJ
+  const [cnpj, setCnpj] = useState('');
+  const [cnpjErro, setCnpjErro] = useState('');
 
   const validarEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -604,163 +850,55 @@ const App = () => {
       setComarcaErro("");
     }
 
+
     if (vara === "") {
       setVaraErro("Vara está vazia*");
     } else {
       setVaraErro("");
     }
+
+    if (fontePagadora === "") {
+      setFontePagadoraErro("Fonte Pagadora está vazio*");
+    } else {
+      setFontePagadoraErro("");
+    }
+
+    if (brutoHomologado === null) {
+      setBrutoHomologadoErro("O campo está vazio*");
+    } else {
+      setBrutoHomologadoErro(null);
+    }
+
+    if (tributavelHomologado === null) {
+      setTributavelHomologadoErro("O campo está vazio*");
+    } else {
+      setTributavelHomologadoErro(null);
+    }
+
+    if (cnpj === "") {
+      setCnpjErro("O campo está vazio*");
+    } else {
+      setCnpjErro("");
+    }
+
+    if (numeroDeMeses === null) {
+      setNumeroDeMesesErro("O campo está vazio*");
+    } else {
+      setNumeroDeMesesErro("");
+    }
   }
 
+  const [numeroDeMesesErro, setNumeroDeMesesErro] = useState("")
+  const [fontePagadoraErro, setFontePagadoraErro] = useState("")
+  const [brutoHomologadoErro, setBrutoHomologadoErro] = useState("")
+  const [tributavelHomologadoErro, setTributavelHomologadoErro] = useState("")
 
-  const [userId, setUserId] = useState('');
+  const [plano, setPlano] = useState("Free")
 
-  const handleSendApi = async (e) => {
-    e.preventDefault();
-
-    try {
-      if (nomeUsuario !== "" && telefone !== "" && email !== "" && cpf !== "" && dataNascimento !== "" && processo !== "" && comarca !== "" && vara !== "") {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          paymentDiv.current.style.display = "flex";
-          envCalcs.current.style.display = "none";
-        }, 2000);
-      }
-
-      const pdfURLs = await gerarEArmazenarPDFs();
-
-      let links = {
-        linkPdf1: null,
-        linkPdf2: null,
-        linkPdf3: null,
-        linkPdf4: null,
-        linkPdf5: null,
-        link2Pdf1: null,
-        link2Pdf2: null,
-        link2Pdf3: null,
-        link2Pdf4: null,
-        link2Pdf5: null
-      };
-
-      if (anoEquivalenteCinco !== null) {
-        links = {
-          linkPdf1: pdfURLs[0],
-          linkPdf2: pdfURLs[1],
-          linkPdf3: pdfURLs[2],
-          linkPdf4: pdfURLs[3],
-          linkPdf5: pdfURLs[4],
-          link2Pdf1: pdfURLs[5],
-          link2Pdf2: pdfURLs[6],
-          link2Pdf3: pdfURLs[7],
-          link2Pdf4: pdfURLs[8],
-          link2Pdf5: pdfURLs[9]
-        };
-      } else if (anoEquivalenteQuatro !== null) {
-        links = {
-          linkPdf1: pdfURLs[0],
-          linkPdf2: pdfURLs[1],
-          linkPdf3: pdfURLs[2],
-          linkPdf4: pdfURLs[3],
-          linkPdf5: null,
-          link2Pdf1: pdfURLs[5],
-          link2Pdf2: pdfURLs[6],
-          link2Pdf3: pdfURLs[7],
-          link2Pdf4: pdfURLs[8],
-          link2Pdf5: null
-        };
-      } else if (anoEquivalenteTres !== null) {
-        links = {
-          linkPdf1: pdfURLs[0],
-          linkPdf2: pdfURLs[1],
-          linkPdf3: pdfURLs[2],
-          linkPdf4: null,
-          linkPdf5: null,
-          link2Pdf1: pdfURLs[5],
-          link2Pdf2: pdfURLs[6],
-          link2Pdf3: pdfURLs[7],
-          link2Pdf4: null,
-          link2Pdf5: null
-        };
-      } else if (anoEquivalenteDois !== null) {
-        links = {
-          linkPdf1: pdfURLs[0],
-          linkPdf2: pdfURLs[1],
-          linkPdf3: null,
-          linkPdf4: null,
-          linkPdf5: null,
-          link2Pdf1: pdfURLs[5],
-          link2Pdf2: pdfURLs[6],
-          link2Pdf3: null,
-          link2Pdf4: null,
-          link2Pdf5: null
-        };
-      } else if (anoEquivalenteUm !== null) {
-        links = {
-          linkPdf1: pdfURLs[0],
-          linkPdf2: null,
-          linkPdf3: null,
-          linkPdf4: null,
-          linkPdf5: null,
-          link2Pdf1: pdfURLs[5],
-          link2Pdf2: null,
-          link2Pdf3: null,
-          link2Pdf4: null,
-          link2Pdf5: null
-        };
-      }
-
-      setLinkPdf1(links.linkPdf1);
-      setLinkPdf2(links.linkPdf2);
-      setLinkPdf3(links.linkPdf3);
-      setLinkPdf4(links.linkPdf4);
-      setLinkPdf5(links.linkPdf5);
-      setLink2Pdf1(links.link2Pdf1);
-      setLink2Pdf2(links.link2Pdf2);
-      setLink2Pdf3(links.link2Pdf3);
-      setLink2Pdf4(links.link2Pdf4);
-      setLink2Pdf5(links.link2Pdf5);
-
-      const updatedPdfData = {
-        pdfData1: links.linkPdf1,
-        pdfData2: links.linkPdf2,
-        pdfData3: links.linkPdf3,
-        pdfData4: links.linkPdf4,
-        pdfData5: links.linkPdf5,
-        pdfEsc1: links.link2Pdf1,
-        pdfEsc2: links.link2Pdf2,
-        pdfEsc3: links.link2Pdf3,
-        pdfEsc4: links.link2Pdf4,
-        pdfEsc5: links.link2Pdf5
-      };
-
-      setPdfData(updatedPdfData);
-
-      const newProcess = {
-        timestamp: new Date().toISOString(),
-        userData,
-        processData,
-        valueData,
-        valorCalculos,
-        paymentData: { assinatura: "Free" },
-        pdfData: updatedPdfData
-      };
-
-      const response = await axios.post(`https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users/${userId}`, newProcess, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log('Success:', response.data);
-      if (response.data && response.data.id) {
-        setUserId(response.data.id);
-      }
-
-      Calcular();
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  const [paymentData, setPaymentData] = useState({
+    idApp: "",
+    assinatura: "",
+  })
 
 
   const [userData, setUserData] = useState({
@@ -1011,6 +1149,20 @@ const App = () => {
     finalQuatroCorrigido: 0,
     finalCincoCorrigido: 0,
   });
+
+  const [stateId, setStateId] = useState(null)
+
+  useEffect(() => {
+    setStateId(uuidv4())
+  }, [])
+
+  useEffect(() => {
+    setPaymentData(prevPaymentData => ({
+      ...prevPaymentData,
+      idApp: stateId,
+      assinatura: plano,
+    }))
+  }, [plano, stateId])
 
   useEffect(() => {
     setUserData(prevUserData => ({
@@ -2529,9 +2681,6 @@ const App = () => {
 
   function ValorRestituir({ finalSomaCorrigido }) {
     if (parseFloat(finalSomaCorrigido) > 0) {
-      return <div ref={msg} className="msg">Você possui menos de 500 reais para restituir.</div>;
-    }
-    if (parseFloat(finalSomaCorrigido) > 500) {
       return (
         <div>
           <div className="msgAprovado">Parabéns! Você possui valor à restituir!</div>
@@ -2580,7 +2729,7 @@ const App = () => {
     e.preventDefault();
     try {
       console.log('Dados do formulário:', formData);
-      const response = await axios.post('https://asaas-payment-backend.onrender.com/create-payment', formData);
+      const response = await axios.post('https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/create-payment', formData);
       console.log('Resposta do servidor:', response.data);
       const paymentUrl = response.data.invoiceUrl || response.data.bankSlipUrl;
 
@@ -2602,7 +2751,7 @@ const App = () => {
     e.preventDefault();
     try {
       console.log('Dados do formulário:', formData);
-      const response = await axios.post('https://asaas-payment-backend.onrender.com/create-payment', formData);
+      const response = await axios.post('https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/create-payment', formData);
       console.log('Resposta do servidor:', response.data);
       const paymentUrl = response.data.invoiceUrl || response.data.bankSlipUrl;
 
@@ -2627,7 +2776,7 @@ const App = () => {
     e.preventDefault();
     try {
       console.log('Dados do formulário:', formData);
-      const response = await axios.post('https://asaas-payment-backend.onrender.com/create-payment', formData);
+      const response = await axios.post('https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/create-payment', formData);
       console.log('Resposta do servidor:', response.data);
       const paymentUrl = response.data.invoiceUrl || response.data.bankSlipUrl;
 
@@ -2648,7 +2797,7 @@ const App = () => {
   const checkPaymentStatusUm = async (paymentId) => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`https://asaas-payment-backend.onrender.com/payment-status/${paymentId}`);
+        const response = await axios.get(`https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/payment-status/${paymentId}`);
         if (response.data.status === 'RECEIVED' || response.data.status === 'CONFIRMED') {
           setPaymentCompletedUm(true);
           clearInterval(interval);
@@ -2662,7 +2811,7 @@ const App = () => {
   const checkPaymentStatusDois = async (paymentId) => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`https://asaas-payment-backend.onrender.com/payment-status/${paymentId}`);
+        const response = await axios.get(`https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/payment-status/${paymentId}`);
         if (response.data.status === 'RECEIVED' || response.data.status === 'CONFIRMED') {
           setPaymentCompletedDois(true);
           clearInterval(interval);
@@ -2676,7 +2825,7 @@ const App = () => {
   const checkPaymentStatusTres = async (paymentId) => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`https://asaas-payment-backend.onrender.com/payment-status/${paymentId}`);
+        const response = await axios.get(`https://asaas-payment-ir-1a1d7a79d60d.herokuapp.com/payment-status/${paymentId}`);
         if (response.data.status === 'RECEIVED' || response.data.status === 'CONFIRMED') {
           setPaymentCompletedTres(true);
           clearInterval(interval);
@@ -2784,7 +2933,7 @@ const App = () => {
   function updateHiddenPlansUm() {
     if (paymentCompletedUm === true) {
       return (
-        <div className="sucesso-pay">
+        <div className="">
           <h3>Total a restituir:</h3>
           <h3 className="text-verde">{formatCurrency(finalSomaCorrigido)}</h3>
         </div>
@@ -3432,7 +3581,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Nome do Cliente:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{nomeUsuario}</Text>
+          <Text style={styles.tableCellData}>{nomeUsuario}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3440,7 +3589,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>CPF:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{cpf}</Text>
+          <Text style={styles.tableCellData}>{cpf}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3448,7 +3597,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Data de Nascimento:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{dataNascimento}</Text>
+          <Text style={styles.tableCellData}>{dataNascimento}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3466,6 +3615,14 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>Vara:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{vara}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
           <Text style={styles.tableCellHeader}>Comarca:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
@@ -3474,15 +3631,23 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
-          <Text style={styles.tableCellHeader}>Vara:</Text>
+          <Text style={styles.tableCellHeader}>Fonte Pagadora:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{vara}</Text>
+          <Text style={styles.tableCell}>{fontePagadora}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>CNPJ:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{formatarCNPJ(cnpj)}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RETIRADO PELO AUTOR:</Text>
+          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RECEBIDOS PELO AUTOR:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableAlvarasUm)}</Text>
@@ -3490,7 +3655,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>2 - TOTAL DE DARF PAGA:</Text>
+          <Text style={styles.tableCellHeader}>2 - TOTAL DE IMPOSTO DE RENDA RETIDO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableDarfUm)}</Text>
@@ -3506,12 +3671,12 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "100%" }]}>
-          <Text style={styles.tableCellHeader}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
+          <Text style={styles.tableCellCenter}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO ATUALIZADO</Text>
+          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO HOMOLOGADO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(brutoHomologado)}</Text>
@@ -3551,7 +3716,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>9 - TOTAL DE DEDUÇÕES COM ADVOGADO E PERITO:</Text>
+          <Text style={styles.tableCellHeader}>9 - TOTAL DE DESPESAS PAGAS COM ADVOGADO E PERITO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableHonorariosUm)}</Text>
@@ -3559,20 +3724,10 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO</Text>
+          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO, PROPORCIONAIS:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableTribHonorariosUm)}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>MESES DISCUTIDOS NA AÇÃO</Text>
-        </View>
-        <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>
-            {rendTribUmMes !== null ? rendTribUmMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
-          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3598,15 +3753,30 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>13 - INSS RECLAMANTE</Text>
+          <Text style={styles.tableCellHeader}>13 - MESES DISCUTIDOS NA AÇÃO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>-</Text>
+          <Text style={styles.tableCell}>
+            {rendTribUmMes !== null ? (
+              rendTribUmMes % 1 === 0
+                ? rendTribUmMes.toLocaleString('pt-BR')
+                : rendTribUmMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ) : ''}
+
+          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>14 - RENDIMENTOS ISENTOS</Text>
+          <Text style={styles.tableCellHeader}>14 - INSS RECLAMANTE</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "35%" }]}>
+          <Text style={styles.tableCell}>{formatCurrency(INSS)}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "65%" }]}>
+          <Text style={styles.tableCellHeader}>15 - RENDIMENTOS ISENTOS</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableIsentoAlvaraUm)}</Text>
@@ -3639,7 +3809,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Nome do Cliente:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{nomeUsuario}</Text>
+          <Text style={styles.tableCellData}>{nomeUsuario}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3647,7 +3817,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>CPF:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{cpf}</Text>
+          <Text style={styles.tableCellData}>{cpf}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3655,7 +3825,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Data de Nascimento:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{dataNascimento}</Text>
+          <Text style={styles.tableCellData}>{dataNascimento}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3673,6 +3843,14 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>Vara:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{vara}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
           <Text style={styles.tableCellHeader}>Comarca:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
@@ -3681,15 +3859,23 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
-          <Text style={styles.tableCellHeader}>Vara:</Text>
+          <Text style={styles.tableCellHeader}>Fonte Pagadora:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{vara}</Text>
+          <Text style={styles.tableCell}>{fontePagadora}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>CNPJ:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{formatarCNPJ(cnpj)}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RETIRADO PELO AUTOR:</Text>
+          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RECEBIDOS PELO AUTOR:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableAlvarasDois)}</Text>
@@ -3697,7 +3883,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>2 - TOTAL DE DARF PAGA:</Text>
+          <Text style={styles.tableCellHeader}>2 - TOTAL DE IMPOSTO DE RENDA RETIDO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableDarfDois)}</Text>
@@ -3713,12 +3899,12 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "100%" }]}>
-          <Text style={styles.tableCellHeader}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
+          <Text style={styles.tableCellCenter}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO ATUALIZADO</Text>
+          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO HOMOLOGADO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(brutoHomologado)}</Text>
@@ -3758,7 +3944,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>9 - TOTAL DE DEDUÇÕES COM ADVOGADO E PERITO:</Text>
+          <Text style={styles.tableCellHeader}>9 - TOTAL DE DESPESAS PAGAS COM ADVOGADO E PERITO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableHonorariosDois)}</Text>
@@ -3766,20 +3952,10 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO</Text>
+          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO, PROPORCIONAIS:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableTribHonorariosDois)}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>MESES DISCUTIDOS NA AÇÃO</Text>
-        </View>
-        <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>
-            {rendTribDoisMes !== null ? rendTribDoisMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
-          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3805,15 +3981,29 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>13 - INSS RECLAMANTE</Text>
+          <Text style={styles.tableCellHeader}>13 - MESES DISCUTIDOS NA AÇÃO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>-</Text>
+          <Text style={styles.tableCell}>
+            {rendTribDoisMes !== null ? (
+              rendTribDoisMes % 1 === 0
+                ? rendTribDoisMes.toLocaleString('pt-BR')
+                : rendTribDoisMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ) : ''}
+          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>14 - RENDIMENTOS ISENTOS</Text>
+          <Text style={styles.tableCellHeader}>14 - INSS RECLAMANTE</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "35%" }]}>
+          <Text style={styles.tableCell}>{formatCurrency(INSS)}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "65%" }]}>
+          <Text style={styles.tableCellHeader}>15 - RENDIMENTOS ISENTOS</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableIsentoAlvaraDois)}</Text>
@@ -3846,7 +4036,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Nome do Cliente:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{nomeUsuario}</Text>
+          <Text style={styles.tableCellData}>{nomeUsuario}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3854,7 +4044,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>CPF:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{cpf}</Text>
+          <Text style={styles.tableCellData}>{cpf}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3862,7 +4052,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Data de Nascimento:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{dataNascimento}</Text>
+          <Text style={styles.tableCellData}>{dataNascimento}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -3880,6 +4070,14 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>Vara:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{vara}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
           <Text style={styles.tableCellHeader}>Comarca:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
@@ -3888,15 +4086,23 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
-          <Text style={styles.tableCellHeader}>Vara:</Text>
+          <Text style={styles.tableCellHeader}>Fonte Pagadora:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{vara}</Text>
+          <Text style={styles.tableCell}>{fontePagadora}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>CNPJ:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{formatarCNPJ(cnpj)}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RETIRADO PELO AUTOR:</Text>
+          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RECEBIDOS PELO AUTOR:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableAlvarasTres)}</Text>
@@ -3904,7 +4110,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>2 - TOTAL DE DARF PAGA:</Text>
+          <Text style={styles.tableCellHeader}>2 - TOTAL DE IMPOSTO DE RENDA RETIDO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableDarfTres)}</Text>
@@ -3920,12 +4126,12 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "100%" }]}>
-          <Text style={styles.tableCellHeader}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
+          <Text style={styles.tableCellCenter}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO ATUALIZADO</Text>
+          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO HOMOLOGADO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(brutoHomologado)}</Text>
@@ -3965,7 +4171,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>9 - TOTAL DE DEDUÇÕES COM ADVOGADO E PERITO:</Text>
+          <Text style={styles.tableCellHeader}>9 - TOTAL DE DESPESAS PAGAS COM ADVOGADO E PERITO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableHonorariosTres)}</Text>
@@ -3973,20 +4179,10 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO</Text>
+          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO, PROPORCIONAIS:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableTribHonorariosTres)}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>MESES DISCUTIDOS NA AÇÃO</Text>
-        </View>
-        <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>
-            {rendTribTresMes !== null ? rendTribTresMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
-          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4012,15 +4208,30 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>13 - INSS RECLAMANTE</Text>
+          <Text style={styles.tableCellHeader}>13 - MESES DISCUTIDOS NA AÇÃO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>-</Text>
+          <Text style={styles.tableCell}>
+            {rendTribTresMes !== null ? (
+              rendTribTresMes % 1 === 0
+                ? rendTribTresMes.toLocaleString('pt-BR')
+                : rendTribTresMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ) : ''}
+
+          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>14 - RENDIMENTOS ISENTOS</Text>
+          <Text style={styles.tableCellHeader}>14 - INSS RECLAMANTE</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "35%" }]}>
+          <Text style={styles.tableCell}>{formatCurrency(INSS)}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "65%" }]}>
+          <Text style={styles.tableCellHeader}>15 - RENDIMENTOS ISENTOS</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableIsentoAlvaraTres)}</Text>
@@ -4053,7 +4264,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Nome do Cliente:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{nomeUsuario}</Text>
+          <Text style={styles.tableCellData}>{nomeUsuario}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4061,7 +4272,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>CPF:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{cpf}</Text>
+          <Text style={styles.tableCellData}>{cpf}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4069,7 +4280,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Data de Nascimento:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{dataNascimento}</Text>
+          <Text style={styles.tableCellData}>{dataNascimento}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4087,6 +4298,14 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>Vara:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{vara}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
           <Text style={styles.tableCellHeader}>Comarca:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
@@ -4095,15 +4314,23 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
-          <Text style={styles.tableCellHeader}>Vara:</Text>
+          <Text style={styles.tableCellHeader}>Fonte Pagadora:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{vara}</Text>
+          <Text style={styles.tableCell}>{fontePagadora}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>CNPJ:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{formatarCNPJ(cnpj)}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RETIRADO PELO AUTOR:</Text>
+          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RECEBIDOS PELO AUTOR:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableAlvarasQuatro)}</Text>
@@ -4111,7 +4338,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>2 - TOTAL DE DARF PAGA:</Text>
+          <Text style={styles.tableCellHeader}>2 - TOTAL DE IMPOSTO DE RENDA RETIDO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableDarfQuatro)}</Text>
@@ -4127,12 +4354,12 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "100%" }]}>
-          <Text style={styles.tableCellHeader}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
+          <Text style={styles.tableCellCenter}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO ATUALIZADO</Text>
+          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO HOMOLOGADO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(brutoHomologado)}</Text>
@@ -4172,7 +4399,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>9 - TOTAL DE DEDUÇÕES COM ADVOGADO E PERITO:</Text>
+          <Text style={styles.tableCellHeader}>9 - TOTAL DE DESPESAS PAGAS COM ADVOGADO E PERITO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableHonorariosQuatro)}</Text>
@@ -4180,20 +4407,10 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO</Text>
+          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO, PROPORCIONAIS:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableTribHonorariosQuatro)}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>MESES DISCUTIDOS NA AÇÃO</Text>
-        </View>
-        <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>
-            {rendTribQuatroMes !== null ? rendTribQuatroMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
-          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4219,15 +4436,30 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>13 - INSS RECLAMANTE</Text>
+          <Text style={styles.tableCellHeader}>13 - MESES DISCUTIDOS NA AÇÃO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>-</Text>
+          <Text style={styles.tableCell}>
+            {rendTribQuatroMes !== null ? (
+              rendTribQuatroMes % 1 === 0
+                ? rendTribQuatroMes.toLocaleString('pt-BR')
+                : rendTribQuatroMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ) : ''}
+
+          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>14 - RENDIMENTOS ISENTOS</Text>
+          <Text style={styles.tableCellHeader}>14 - INSS RECLAMANTE</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "35%" }]}>
+          <Text style={styles.tableCell}>{formatCurrency(INSS)}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "65%" }]}>
+          <Text style={styles.tableCellHeader}>15 - RENDIMENTOS ISENTOS</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableIsentoAlvaraQuatro)}</Text>
@@ -4260,7 +4492,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Nome do Cliente:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{nomeUsuario}</Text>
+          <Text style={styles.tableCellData}>{nomeUsuario}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4268,7 +4500,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>CPF:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{cpf}</Text>
+          <Text style={styles.tableCellData}>{cpf}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4276,7 +4508,7 @@ const App = () => {
           <Text style={styles.tableCellHeader}>Data de Nascimento:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{dataNascimento}</Text>
+          <Text style={styles.tableCellData}>{dataNascimento}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4294,6 +4526,14 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>Vara:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{vara}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
           <Text style={styles.tableCellHeader}>Comarca:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
@@ -4302,15 +4542,23 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "25%" }]}>
-          <Text style={styles.tableCellHeader}>Vara:</Text>
+          <Text style={styles.tableCellHeader}>Fonte Pagadora:</Text>
         </View>
         <View style={[styles.tableCol, { width: "75%" }]}>
-          <Text style={styles.tableCell}>{vara}</Text>
+          <Text style={styles.tableCell}>{fontePagadora}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "25%" }]}>
+          <Text style={styles.tableCellHeader}>CNPJ:</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "75%" }]}>
+          <Text style={styles.tableCell}>{formatarCNPJ(cnpj)}</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RETIRADO PELO AUTOR:</Text>
+          <Text style={styles.tableCellHeader}>1 - TOTAL DE RENDIMENTOS RECEBIDOS PELO AUTOR:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableAlvarasCinco)}</Text>
@@ -4318,7 +4566,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>2 - TOTAL DE DARF PAGA:</Text>
+          <Text style={styles.tableCellHeader}>2 - TOTAL DE IMPOSTO DE RENDA RETIDO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableDarfCinco)}</Text>
@@ -4334,12 +4582,12 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "100%" }]}>
-          <Text style={styles.tableCellHeader}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
+          <Text style={styles.tableCellCenter}>APURAÇÃO DOS RENDIMENTOS ISENTOS DE TRIBUTAÇÃO</Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO ATUALIZADO</Text>
+          <Text style={styles.tableCellHeader}>4 - RENDIMENTOS BRUTO HOMOLOGADO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(brutoHomologado)}</Text>
@@ -4379,7 +4627,7 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>9 - TOTAL DE DEDUÇÕES COM ADVOGADO E PERITO:</Text>
+          <Text style={styles.tableCellHeader}>9 - TOTAL DE DESPESAS PAGAS COM ADVOGADO E PERITO:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableHonorariosCinco)}</Text>
@@ -4387,20 +4635,10 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO</Text>
+          <Text style={styles.tableCellHeader}>10 - DESPESAS PAGAS AO ADVOGADO E PERITO, PROPORCIONAIS:</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableTribHonorariosCinco)}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>MESES DISCUTIDOS NA AÇÃO</Text>
-        </View>
-        <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>
-            {rendTribCincoMes !== null ? rendTribCincoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
-          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
@@ -4426,15 +4664,29 @@ const App = () => {
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>13 - INSS RECLAMANTE</Text>
+          <Text style={styles.tableCellHeader}>13 - MESES DISCUTIDOS NA AÇÃO</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
-          <Text style={styles.tableCell}>-</Text>
+          <Text style={styles.tableCell}>
+            {rendTribCincoMes !== null ? (
+              rendTribCincoMes % 1 === 0
+                ? rendTribCincoMes.toLocaleString('pt-BR')
+                : rendTribCincoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            ) : ''}
+          </Text>
         </View>
       </View>
       <View style={styles.tableRow}>
         <View style={[styles.tableCol, { width: "65%" }]}>
-          <Text style={styles.tableCellHeader}>14 - RENDIMENTOS ISENTOS</Text>
+          <Text style={styles.tableCellHeader}>14 - INSS RECLAMANTE</Text>
+        </View>
+        <View style={[styles.tableCol, { width: "35%" }]}>
+          <Text style={styles.tableCell}>{formatCurrency(INSS)}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow}>
+        <View style={[styles.tableCol, { width: "65%" }]}>
+          <Text style={styles.tableCellHeader}>15 - RENDIMENTOS ISENTOS</Text>
         </View>
         <View style={[styles.tableCol, { width: "35%" }]}>
           <Text style={styles.tableCell}>{formatCurrency(tableIsentoAlvaraCinco)}</Text>
@@ -4461,7 +4713,7 @@ const App = () => {
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionTitle}>A) DADOS DA AÇÃO:</Text>
         <Text style={stylesEsc.text}>
-          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara}.
+          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara} de {comarca}.
         </Text>
       </View>
 
@@ -4471,22 +4723,17 @@ const App = () => {
           2) O valor total levantado pelo(a) contribuinte, referente ao exercício foi de {formatCurrency(tableAlvarasUm)};
         </Text>
         <Text style={stylesEsc.text}>
-          3) O imposto de renda no valor de {formatCurrency(tableDarfUm)}, foi retido no mês de Agosto, pelo(a) {comarca} - CNPJ n.º 00.000.000/0001-90.
+          3) O imposto de renda no valor total de {formatCurrency(tableDarfUm)}, foi retido, pelo(a) {fontePagadora} - CNPJ n.º {formatarCNPJ(cnpj)}, conforme documento(s) anexo(s).
         </Text>
         <Text style={stylesEsc.text}>
           4) O valor bruto da ação corresponde a soma entre o(s) alvará(s)/mandado(s) de levantamento e o imposto de renda retido, o que equivale, neste caso, ao valor de {formatCurrency(parseFloat(tableAlvarasUm) + parseFloat(tableDarfUm))};
         </Text>
         <Text style={stylesEsc.text}>
-          5) O valor atualizado apurado de {formatCurrency(rendTribUmAlvara)}, referente ao(s) rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
+          5) O valor atualizado apurado de {formatCurrency(rendTribUmAlvara)}, referente ao(s) Rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
         </Text>
         <Text style={stylesEsc.text}>
           6) O valor total apurado de despesas dedutíveis¹ com a ação judicial, sobre a mesma proporção dos rendimentos tributáveis, nos exatos termos da Lei, foi de {formatCurrency(tableTribHonorariosUm)}.
         </Text>
-      </View>
-      <View style={stylesEsc.section}>
-        <Text style={stylesEsc.sectionMidle}>Obs.: Na planilha em anexo, foram utilizados como parâmetros os dados acima mencionados. Assim, para a apuração dos
-          valores a serem declarados, o contribuinte deduziu do valor bruto da ação o(s) rendimento(s) isento(s), bem como as
-          despesas pagas, devidamente proporcionalizadas. </Text>
       </View>
 
       <View style={stylesEsc.section}>
@@ -4509,7 +4756,7 @@ const App = () => {
             <Text style={stylesEsc.tableCell}>B) INSS RECLAMANTE:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>R$ 0,00</Text>
+            <Text style={stylesEsc.tableCellNum}>{formatCurrency(INSS)}</Text>
           </View>
         </View>
         <View style={stylesEsc.tableRow}>
@@ -4522,15 +4769,7 @@ const App = () => {
         </View>
         <View style={stylesEsc.tableRow}>
           <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>D) MÊS DO RECEBIMENTO:</Text>
-          </View>
-          <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>Agosto</Text>
-          </View>
-        </View>
-        <View style={stylesEsc.tableRow}>
-          <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>E) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
+            <Text style={stylesEsc.tableCell}>D) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
             <Text style={stylesEsc.tableCellNum}>{rendTribUmMes !== null ? rendTribUmMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</Text>
@@ -4555,7 +4794,7 @@ const App = () => {
 
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionMidle}>Obs.:</Text>
-        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos ao Advogado e ao Perito, foram lançados na ficha de pagamentos, em item próprio;</Text>
+        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos, foram lançados na ficha de pagamentos, em item próprio;</Text>
         <Text style={stylesEsc.sectionMidle}>b) O valor referente ao rendimento isento foi lançado na ficha de rendimentos isentos e não tributáveis, no item “OUTROS”,
           com a denominação de “Verbas Isentas Ação Judicial”, com os mesmos dados da Fonte Pagadora. </Text>
         <Text style={stylesEsc.topUm}></Text>
@@ -4564,10 +4803,7 @@ const App = () => {
 
       <View style={stylesEsc.footer}>
         <Text style={stylesEsc.top}></Text>
-        <Text style={stylesEsc.text}>
-          Rua Quirino dos Santos, 271, Sala 12 - Barra Funda - São Paulo/SP - CEP: 01141-020
-        </Text>
-        <Text style={stylesEsc.text}>Tel.: (11) 3815.9391 – E-mail: atendimento@restituicao.ir.com.br</Text>
+        <Image src={logoIr360} style={stylesEsc.logo} />
       </View>
     </Page>
   );
@@ -4590,7 +4826,7 @@ const App = () => {
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionTitle}>A) DADOS DA AÇÃO:</Text>
         <Text style={stylesEsc.text}>
-          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara}.
+          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara} de {comarca}.
         </Text>
       </View>
 
@@ -4600,22 +4836,17 @@ const App = () => {
           2) O valor total levantado pelo(a) contribuinte, referente ao exercício foi de {formatCurrency(tableAlvarasDois)};
         </Text>
         <Text style={stylesEsc.text}>
-          3) O imposto de renda no valor de {formatCurrency(tableDarfDois)}, foi retido no mês de Agosto, pelo(a) {comarca} - CNPJ n.º 00.000.000/0001-90.
+          3) O imposto de renda no valor total de {formatCurrency(tableDarfDois)}, foi retido, pelo(a) {fontePagadora} - CNPJ n.º {formatarCNPJ(cnpj)}, conforme documento(s) anexo(s).
         </Text>
         <Text style={stylesEsc.text}>
           4) O valor bruto da ação corresponde a soma entre o(s) alvará(s)/mandado(s) de levantamento e o imposto de renda retido, o que equivale, neste caso, ao valor de {formatCurrency(parseFloat(tableAlvarasDois) + parseFloat(tableDarfDois))};
         </Text>
         <Text style={stylesEsc.text}>
-          5) O valor atualizado apurado de {formatCurrency(rendTribDoisAlvara)}, referente ao(s) rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
+          5) O valor atualizado apurado de {formatCurrency(rendTribDoisAlvara)}, referente ao(s) Rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
         </Text>
         <Text style={stylesEsc.text}>
           6) O valor total apurado de despesas dedutíveis¹ com a ação judicial, sobre a mesma proporção dos rendimentos tributáveis, nos exatos termos da Lei, foi de {formatCurrency(tableTribHonorariosDois)}.
         </Text>
-      </View>
-      <View style={stylesEsc.section}>
-        <Text style={stylesEsc.sectionMidle}>Obs.: Na planilha em anexo, foram utilizados como parâmetros os dados acima mencionados. Assim, para a apuração dos
-          valores a serem declarados, o contribuinte deduziu do valor bruto da ação o(s) rendimento(s) isento(s), bem como as
-          despesas pagas, devidamente proporcionalizadas. </Text>
       </View>
 
       <View style={stylesEsc.section}>
@@ -4638,7 +4869,7 @@ const App = () => {
             <Text style={stylesEsc.tableCell}>B) INSS RECLAMANTE:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>R$ 0,00</Text>
+            <Text style={stylesEsc.tableCellNum}>{formatCurrency(INSS)}</Text>
           </View>
         </View>
         <View style={stylesEsc.tableRow}>
@@ -4651,15 +4882,7 @@ const App = () => {
         </View>
         <View style={stylesEsc.tableRow}>
           <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>D) MÊS DO RECEBIMENTO:</Text>
-          </View>
-          <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>Agosto</Text>
-          </View>
-        </View>
-        <View style={stylesEsc.tableRow}>
-          <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>E) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
+            <Text style={stylesEsc.tableCell}>D) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
             <Text style={stylesEsc.tableCellNum}>{rendTribDoisMes !== null ? rendTribDoisMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</Text>
@@ -4684,7 +4907,7 @@ const App = () => {
 
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionMidle}>Obs.:</Text>
-        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos ao Advogado e ao Perito, foram lançados na ficha de pagamentos, em item próprio;</Text>
+        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos, foram lançados na ficha de pagamentos, em item próprio;</Text>
         <Text style={stylesEsc.sectionMidle}>b) O valor referente ao rendimento isento foi lançado na ficha de rendimentos isentos e não tributáveis, no item “OUTROS”,
           com a denominação de “Verbas Isentas Ação Judicial”, com os mesmos dados da Fonte Pagadora. </Text>
         <Text style={stylesEsc.topDois}></Text>
@@ -4693,10 +4916,7 @@ const App = () => {
 
       <View style={stylesEsc.footer}>
         <Text style={stylesEsc.top}></Text>
-        <Text style={stylesEsc.text}>
-          Rua Quirino dos Santos, 271, Sala 12 - Barra Funda - São Paulo/SP - CEP: 01141-020
-        </Text>
-        <Text style={stylesEsc.text}>Tel.: (11) 3815.9391 – E-mail: atendimento@restituicao.ir.com.br</Text>
+        <Image src={logoIr360} style={stylesEsc.logo} />
       </View>
     </Page>
   );
@@ -4719,7 +4939,7 @@ const App = () => {
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionTitle}>A) DADOS DA AÇÃO:</Text>
         <Text style={stylesEsc.text}>
-          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara}.
+          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara} de {comarca}.
         </Text>
       </View>
 
@@ -4729,22 +4949,17 @@ const App = () => {
           2) O valor total levantado pelo(a) contribuinte, referente ao exercício foi de {formatCurrency(tableAlvarasTres)};
         </Text>
         <Text style={stylesEsc.text}>
-          3) O imposto de renda no valor de {formatCurrency(tableDarfTres)}, foi retido no mês de Agosto, pelo(a) {comarca} - CNPJ n.º 00.000.000/0001-90.
+          3) O imposto de renda no valor total de {formatCurrency(tableDarfTres)}, foi retido, pelo(a) {fontePagadora} - CNPJ n.º {formatarCNPJ(cnpj)}, conforme documento(s) anexo(s).
         </Text>
         <Text style={stylesEsc.text}>
           4) O valor bruto da ação corresponde a soma entre o(s) alvará(s)/mandado(s) de levantamento e o imposto de renda retido, o que equivale, neste caso, ao valor de {formatCurrency(parseFloat(tableAlvarasTres) + parseFloat(tableDarfTres))};
         </Text>
         <Text style={stylesEsc.text}>
-          5) O valor atualizado apurado de {formatCurrency(rendTribTresAlvara)}, referente ao(s) rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
+          5) O valor atualizado apurado de {formatCurrency(rendTribTresAlvara)}, referente ao(s) Rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
         </Text>
         <Text style={stylesEsc.text}>
           6) O valor total apurado de despesas dedutíveis¹ com a ação judicial, sobre a mesma proporção dos rendimentos tributáveis, nos exatos termos da Lei, foi de {formatCurrency(tableTribHonorariosTres)}.
         </Text>
-      </View>
-      <View style={stylesEsc.section}>
-        <Text style={stylesEsc.sectionMidle}>Obs.: Na planilha em anexo, foram utilizados como parâmetros os dados acima mencionados. Assim, para a apuração dos
-          valores a serem declarados, o contribuinte deduziu do valor bruto da ação o(s) rendimento(s) isento(s), bem como as
-          despesas pagas, devidamente proporcionalizadas. </Text>
       </View>
 
       <View style={stylesEsc.section}>
@@ -4767,7 +4982,7 @@ const App = () => {
             <Text style={stylesEsc.tableCell}>B) INSS RECLAMANTE:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>R$ 0,00</Text>
+            <Text style={stylesEsc.tableCellNum}>{formatCurrency(INSS)}</Text>
           </View>
         </View>
         <View style={stylesEsc.tableRow}>
@@ -4780,15 +4995,7 @@ const App = () => {
         </View>
         <View style={stylesEsc.tableRow}>
           <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>D) MÊS DO RECEBIMENTO:</Text>
-          </View>
-          <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>Agosto</Text>
-          </View>
-        </View>
-        <View style={stylesEsc.tableRow}>
-          <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>E) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
+            <Text style={stylesEsc.tableCell}>D) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
             <Text style={stylesEsc.tableCellNum}>{rendTribTresMes !== null ? rendTribTresMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</Text>
@@ -4813,7 +5020,7 @@ const App = () => {
 
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionMidle}>Obs.:</Text>
-        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos ao Advogado e ao Perito, foram lançados na ficha de pagamentos, em item próprio;</Text>
+        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos, foram lançados na ficha de pagamentos, em item próprio;</Text>
         <Text style={stylesEsc.sectionMidle}>b) O valor referente ao rendimento isento foi lançado na ficha de rendimentos isentos e não tributáveis, no item “OUTROS”,
           com a denominação de “Verbas Isentas Ação Judicial”, com os mesmos dados da Fonte Pagadora. </Text>
         <Text style={stylesEsc.topTres}></Text>
@@ -4822,10 +5029,7 @@ const App = () => {
 
       <View style={stylesEsc.footer}>
         <Text style={stylesEsc.top}></Text>
-        <Text style={stylesEsc.text}>
-          Rua Quirino dos Santos, 271, Sala 12 - Barra Funda - São Paulo/SP - CEP: 01141-020
-        </Text>
-        <Text style={stylesEsc.text}>Tel.: (11) 3815.9391 – E-mail: atendimento@restituicao.ir.com.br</Text>
+        <Image src={logoIr360} style={stylesEsc.logo} />
       </View>
     </Page>
   );
@@ -4848,7 +5052,7 @@ const App = () => {
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionTitle}>A) DADOS DA AÇÃO:</Text>
         <Text style={stylesEsc.text}>
-          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara}.
+          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara} de {comarca}.
         </Text>
       </View>
 
@@ -4858,22 +5062,17 @@ const App = () => {
           2) O valor total levantado pelo(a) contribuinte, referente ao exercício foi de {formatCurrency(tableAlvarasQuatro)};
         </Text>
         <Text style={stylesEsc.text}>
-          3) O imposto de renda no valor de {formatCurrency(tableDarfQuatro)}, foi retido no mês de Agosto, pelo(a) {comarca} - CNPJ n.º 00.000.000/0001-90.
+          3) O imposto de renda no valor total de {formatCurrency(tableDarfQuatro)}, foi retido, pelo(a) {fontePagadora} - CNPJ n.º {formatarCNPJ(cnpj)}, conforme documento(s) anexo(s).
         </Text>
         <Text style={stylesEsc.text}>
           4) O valor bruto da ação corresponde a soma entre o(s) alvará(s)/mandado(s) de levantamento e o imposto de renda retido, o que equivale, neste caso, ao valor de {formatCurrency(parseFloat(tableAlvarasQuatro) + parseFloat(tableDarfQuatro))};
         </Text>
         <Text style={stylesEsc.text}>
-          5) O valor atualizado apurado de {formatCurrency(rendTribQuatroAlvara)}, referente ao(s) rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
+          5) O valor atualizado apurado de {formatCurrency(rendTribQuatroAlvara)}, referente ao(s) Rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
         </Text>
         <Text style={stylesEsc.text}>
           6) O valor total apurado de despesas dedutíveis¹ com a ação judicial, sobre a mesma proporção dos rendimentos tributáveis, nos exatos termos da Lei, foi de {formatCurrency(tableTribHonorariosQuatro)}.
         </Text>
-      </View>
-      <View style={stylesEsc.section}>
-        <Text style={stylesEsc.sectionMidle}>Obs.: Na planilha em anexo, foram utilizados como parâmetros os dados acima mencionados. Assim, para a apuração dos
-          valores a serem declarados, o contribuinte deduziu do valor bruto da ação o(s) rendimento(s) isento(s), bem como as
-          despesas pagas, devidamente proporcionalizadas. </Text>
       </View>
 
       <View style={stylesEsc.section}>
@@ -4896,7 +5095,7 @@ const App = () => {
             <Text style={stylesEsc.tableCell}>B) INSS RECLAMANTE:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>R$ 0,00</Text>
+            <Text style={stylesEsc.tableCellNum}>{formatCurrency(INSS)}</Text>
           </View>
         </View>
         <View style={stylesEsc.tableRow}>
@@ -4909,15 +5108,7 @@ const App = () => {
         </View>
         <View style={stylesEsc.tableRow}>
           <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>D) MÊS DO RECEBIMENTO:</Text>
-          </View>
-          <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>Agosto</Text>
-          </View>
-        </View>
-        <View style={stylesEsc.tableRow}>
-          <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>E) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
+            <Text style={stylesEsc.tableCell}>D) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
             <Text style={stylesEsc.tableCellNum}>{rendTribQuatroMes !== null ? rendTribQuatroMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</Text>
@@ -4942,7 +5133,7 @@ const App = () => {
 
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionMidle}>Obs.:</Text>
-        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos ao Advogado e ao Perito, foram lançados na ficha de pagamentos, em item próprio;</Text>
+        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos, foram lançados na ficha de pagamentos, em item próprio;</Text>
         <Text style={stylesEsc.sectionMidle}>b) O valor referente ao rendimento isento foi lançado na ficha de rendimentos isentos e não tributáveis, no item “OUTROS”,
           com a denominação de “Verbas Isentas Ação Judicial”, com os mesmos dados da Fonte Pagadora. </Text>
         <Text style={stylesEsc.topQuatro}></Text>
@@ -4951,10 +5142,7 @@ const App = () => {
 
       <View style={stylesEsc.footer}>
         <Text style={stylesEsc.top}></Text>
-        <Text style={stylesEsc.text}>
-          Rua Quirino dos Santos, 271, Sala 12 - Barra Funda - São Paulo/SP - CEP: 01141-020
-        </Text>
-        <Text style={stylesEsc.text}>Tel.: (11) 3815.9391 – E-mail: atendimento@restituicao.ir.com.br</Text>
+        <Image src={logoIr360} style={stylesEsc.logo} />
       </View>
     </Page>
   );
@@ -4977,7 +5165,7 @@ const App = () => {
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionTitle}>A) DADOS DA AÇÃO:</Text>
         <Text style={stylesEsc.text}>
-          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara}.
+          Trata-se de rendimento recebido de forma acumulada, referente a Ação Judicial Trabalhista, processo n.º {processo} que tramitou perante a {vara} de {comarca}.
         </Text>
       </View>
 
@@ -4987,22 +5175,17 @@ const App = () => {
           2) O valor total levantado pelo(a) contribuinte, referente ao exercício foi de {formatCurrency(tableAlvarasCinco)};
         </Text>
         <Text style={stylesEsc.text}>
-          3) O imposto de renda no valor de {formatCurrency(tableDarfCinco)}, foi retido no mês de Agosto, pelo(a) {comarca} - CNPJ n.º 00.000.000/0001-90.
+          3) O imposto de renda no valor total de {formatCurrency(tableDarfCinco)}, foi retido, pelo(a) {fontePagadora} - CNPJ n.º {formatarCNPJ(cnpj)}, conforme documento(s) anexo(s).
         </Text>
         <Text style={stylesEsc.text}>
           4) O valor bruto da ação corresponde a soma entre o(s) alvará(s)/mandado(s) de levantamento e o imposto de renda retido, o que equivale, neste caso, ao valor de {formatCurrency(parseFloat(tableAlvarasCinco) + parseFloat(tableDarfCinco))};
         </Text>
         <Text style={stylesEsc.text}>
-          5) O valor atualizado apurado de {formatCurrency(rendTribCincoAlvara)}, referente ao(s) rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
+          5) O valor atualizado apurado de {formatCurrency(rendTribCincoAlvara)}, referente ao(s) Rendimento(s) Tributável(is), equivale(m) a {parseFloat((tributavelHomologado / brutoHomologado) * 100) !== null ? parseFloat((tributavelHomologado / brutoHomologado) * 100).toFixed(2) : ''}% do valor bruto da ação, conforme apurado em planilha anexa.
         </Text>
         <Text style={stylesEsc.text}>
           6) O valor total apurado de despesas dedutíveis¹ com a ação judicial, sobre a mesma proporção dos rendimentos tributáveis, nos exatos termos da Lei, foi de {formatCurrency(tableTribHonorariosCinco)}.
         </Text>
-      </View>
-      <View style={stylesEsc.section}>
-        <Text style={stylesEsc.sectionMidle}>Obs.: Na planilha em anexo, foram utilizados como parâmetros os dados acima mencionados. Assim, para a apuração dos
-          valores a serem declarados, o contribuinte deduziu do valor bruto da ação o(s) rendimento(s) isento(s), bem como as
-          despesas pagas, devidamente proporcionalizadas. </Text>
       </View>
 
       <View style={stylesEsc.section}>
@@ -5025,7 +5208,7 @@ const App = () => {
             <Text style={stylesEsc.tableCell}>B) INSS RECLAMANTE:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>R$ 0,00</Text>
+            <Text style={stylesEsc.tableCellNum}>{formatCurrency(INSS)}</Text>
           </View>
         </View>
         <View style={stylesEsc.tableRow}>
@@ -5038,15 +5221,7 @@ const App = () => {
         </View>
         <View style={stylesEsc.tableRow}>
           <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>D) MÊS DO RECEBIMENTO:</Text>
-          </View>
-          <View style={stylesEsc.tableCol}>
-            <Text style={stylesEsc.tableCellNum}>Agosto</Text>
-          </View>
-        </View>
-        <View style={stylesEsc.tableRow}>
-          <View style={stylesEsc.tableColHeader}>
-            <Text style={stylesEsc.tableCell}>E) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
+            <Text style={stylesEsc.tableCell}>D) Nº DE MESES DISCUTIDOS NA AÇÃO:</Text>
           </View>
           <View style={stylesEsc.tableCol}>
             <Text style={stylesEsc.tableCellNum}>{rendTribCincoMes !== null ? rendTribCincoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}</Text>
@@ -5071,7 +5246,7 @@ const App = () => {
 
       <View style={stylesEsc.section}>
         <Text style={stylesEsc.sectionMidle}>Obs.:</Text>
-        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos ao Advogado e ao Perito, foram lançados na ficha de pagamentos, em item próprio;</Text>
+        <Text style={stylesEsc.sectionMidle}>a) Os honorários pagos, foram lançados na ficha de pagamentos, em item próprio;</Text>
         <Text style={stylesEsc.sectionMidle}>b) O valor referente ao rendimento isento foi lançado na ficha de rendimentos isentos e não tributáveis, no item “OUTROS”,
           com a denominação de “Verbas Isentas Ação Judicial”, com os mesmos dados da Fonte Pagadora. </Text>
         <Text style={stylesEsc.topCinco}></Text>
@@ -5080,10 +5255,7 @@ const App = () => {
 
       <View style={stylesEsc.footer}>
         <Text style={stylesEsc.top}></Text>
-        <Text style={stylesEsc.text}>
-          Rua Quirino dos Santos, 271, Sala 12 - Barra Funda - São Paulo/SP - CEP: 01141-020
-        </Text>
-        <Text style={stylesEsc.text}>Tel.: (11) 3815.9391 – E-mail: atendimento@restituicao.ir.com.br</Text>
+        <Image src={logoIr360} style={stylesEsc.logo} />
       </View>
     </Page>
   );
@@ -5176,75 +5348,6 @@ const App = () => {
     return null; // Retorne null quando calcDuvida não for 1 ou 2
   }
 
-
-  const handleDeleteApi = async (plan) => {
-    try {
-      const response = await axios.delete(`https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users/${userId}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log(`Delete Success (${plan}):`, response.data);
-
-    } catch (error) {
-      console.error(`Delete Error (${plan}):`, error);
-    }
-  };
-
-  const handleSend = async (plan) => {
-    const newProcess = {
-      timestamp: new Date().toISOString(),
-      userData,
-      processData,
-      valueData,
-      valorCalculos,
-      paymentData: { assinatura: plan },
-      pdfData
-    };
-    try {
-      const response = await axios.post(`https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users`, newProcess, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(`Success (${plan}):`, response.data);
-      if (response.data && response.data.id) {
-        setUserId(response.data.id);
-      }
-    } catch (error) {
-      console.error(`Error (${plan}):`, error);
-    }
-  };
-
-  useEffect(() => {
-    const executeApiCalls = async () => {
-      try {
-        if (paymentCompletedUm) {
-          await handleDeleteApi('Starter');
-          await handleSend('Starter');
-        }
-        if (paymentCompletedDois) {
-          await handleDeleteApi('Builder');
-          await handleSend('Builder');
-        }
-        if (paymentCompletedTres) {
-          await handleDeleteApi('Specialist');
-          await handleSend('Specialist');
-        }
-        // Reset the flags after processing
-
-      } catch (error) {
-        alert("Error executing API calls", error);
-      }
-    };
-
-    if (paymentCompletedUm || paymentCompletedDois || paymentCompletedTres) {
-      executeApiCalls();
-    }
-  }, [paymentCompletedUm, paymentCompletedDois, paymentCompletedTres]);
-
-
   useEffect(() => {
     if (checkedCount === 0) {
       setRendTrib1(parseFloat(rendTribUmAlvara) - parseFloat(rendTribUmHonorarios))
@@ -5257,7 +5360,7 @@ const App = () => {
       setRendTrib8(parseFloat(rendTribOitoAlvara) - parseFloat(rendTribOitoHonorarios))
       setRendTrib9(parseFloat(rendTribNoveAlvara) - parseFloat(rendTribNoveHonorarios))
       setRendTrib10(parseFloat(rendTribDezAlvara) - parseFloat(rendTribDezHonorarios))
-    } else if(checkedCount === 1) {
+    } else if (checkedCount === 1) {
       setRendTrib1(parseFloat(rendTribUmAlvara) - parseFloat(tableTribHonorariosUm))
       setRendTrib2(null)
       setRendTrib3(null)
@@ -5321,6 +5424,282 @@ const App = () => {
       finalCincoCorrigido: finalCincoCorrigido,
     }));
   }, [somaDarf, somaAlvara, numeroDeMeses, brutoHomologado, tributavelHomologado, rendTribUmAlvara, rendTribUmHonorarios, rendTribDoisAlvara, rendTribDoisHonorarios, rendTribTresAlvara, rendTribTresHonorarios, rendTribQuatroAlvara, rendTribQuatroHonorarios, rendTribCincoAlvara, rendTribCincoHonorarios, rendTribSeisAlvara, rendTribSeisHonorarios, rendTribSeteAlvara, rendTribSeteHonorarios, rendTribOitoAlvara, rendTribOitoHonorarios, rendTribNoveAlvara, rendTribNoveHonorarios, rendTribDezAlvara, rendTribDezHonorarios, rendTribUmDarf, rendTribDoisDarf, rendTribTresDarf, rendTribQuatroDarf, rendTribCincoDarf, rendTribSeisDarf, rendTribSeteDarf, rendTribOitoDarf, rendTribNoveDarf, rendTribDezDarf, IrpfUm, IrpfDois, IrpfTres, IrpfQuatro, IrpfCinco, IrpfSeis, IrpfSete, IrpfOito, IrpfNove, IrpfDez, selicUm, selicDois, selicTres, selicQuatro, selicCinco, finalUmCorrigido, finalDoisCorrigido, finalTresCorrigido, finalQuatroCorrigido, finalCincoCorrigido, rendTrib1, rendTrib2, rendTrib3, rendTrib4, rendTrib5, rendTrib6, rendTrib7, rendTrib8, rendTrib9, rendTrib10]);
+
+  const formatCPF = (cpf) => {
+    // Remove caracteres não numéricos
+    cpf = cpf.replace(/\D/g, '');
+
+    // Aplica a máscara
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    return cpf;
+  };
+
+  const handleChangeCPF = (event) => {
+    const formattedCPF = formatCPF(event.target.value);
+    if (formattedCPF.length <= 14) {
+      setCpf(formattedCPF);
+      if (validarCPF(formattedCPF)) {
+        setCpfErro('');
+      } else {
+        setCpfErro('CPF inválido');
+      }
+    }
+  };
+
+  const formatProcesso = (valor) => {
+    // Remove caracteres não numéricos
+    valor = valor.replace(/\D/g, '');
+
+    // Aplica a máscara
+    valor = valor.replace(/^(\d{7})(\d)/, '$1-$2');
+    valor = valor.replace(/^(\d{7})-(\d{2})(\d)/, '$1-$2.$3');
+    valor = valor.replace(/^(\d{7})-(\d{2})\.(\d{4})(\d)/, '$1-$2.$3.$4');
+    valor = valor.replace(/^(\d{7})-(\d{2})\.(\d{4})\.(\d)(\d{2})(\d{4})/, '$1-$2.$3.$4.$5.$6');
+
+    return valor;
+  };
+
+  const handleValorChangeProcesso = (event, setFunc) => {
+    const formattedValue = formatProcesso(event.target.value);
+    if (formattedValue.length <= 25) {
+      setFunc(formattedValue);
+    }
+  };
+
+  const capitalizeWords = (string) => {
+    return string
+      .split(' ')
+      .map((word, index) => {
+        if (index > 0 && (word.toLowerCase() === 'de' || word.toLowerCase() === 'do')) {
+          return word.toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ');
+  };
+
+
+
+
+
+
+  const apiUrl = 'https://erestituicaoapi-a4b405e4e1ad.herokuapp.com/users/';
+
+  const handleEnvioDados = async (e) => {
+    if (e) e.preventDefault();
+
+    if (
+      nomeUsuario === "" ||
+      telefone === "" ||
+      email === "" ||
+      cpf === "" ||
+      dataNascimento === "" ||
+      processo === "" ||
+      vara === "" ||
+      comarca === "" /* ||
+      fontePagadora === "" ||
+      cnpjErro === "" ||
+      fontePagadora === "" ||
+      cnpj === "" ||
+      brutoHomologado === null ||
+      tributavelHomologado === null ||
+      numeroDeMeses === null */
+    ) {
+      Calcular();
+      console.log('Preencha todos os campos obrigatórios corretamente.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        paymentDiv.current.style.display = "flex";
+        envCalcs.current.style.display = "none";
+      }, 2000);
+
+      const pdfURLs = await gerarEArmazenarPDFs();
+
+      let links = {
+        linkPdf1: null,
+        linkPdf2: null,
+        linkPdf3: null,
+        linkPdf4: null,
+        linkPdf5: null,
+        link2Pdf1: null,
+        link2Pdf2: null,
+        link2Pdf3: null,
+        link2Pdf4: null,
+        link2Pdf5: null
+      };
+
+      // Define os links de acordo com o ano equivalente
+      if (anoEquivalenteCinco !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: pdfURLs[3],
+          linkPdf5: pdfURLs[4],
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: pdfURLs[8],
+          link2Pdf5: pdfURLs[9]
+        };
+      } else if (anoEquivalenteQuatro !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: pdfURLs[3],
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: pdfURLs[8],
+          link2Pdf5: null
+        };
+      } else if (anoEquivalenteTres !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: pdfURLs[2],
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: pdfURLs[7],
+          link2Pdf4: null,
+          link2Pdf5: null
+        };
+      } else if (anoEquivalenteDois !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: pdfURLs[1],
+          linkPdf3: null,
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: pdfURLs[6],
+          link2Pdf3: null,
+          link2Pdf4: null,
+          link2Pdf5: null
+        };
+      } else if (anoEquivalenteUm !== null) {
+        links = {
+          linkPdf1: pdfURLs[0],
+          linkPdf2: null,
+          linkPdf3: null,
+          linkPdf4: null,
+          linkPdf5: null,
+          link2Pdf1: pdfURLs[5],
+          link2Pdf2: null,
+          link2Pdf3: null,
+          link2Pdf4: null,
+          link2Pdf5: null
+        };
+      }
+
+      setLinkPdf1(links.linkPdf1);
+      setLinkPdf2(links.linkPdf2);
+      setLinkPdf3(links.linkPdf3);
+      setLinkPdf4(links.linkPdf4);
+      setLinkPdf5(links.linkPdf5);
+      setLink2Pdf1(links.link2Pdf1);
+      setLink2Pdf2(links.link2Pdf2);
+      setLink2Pdf3(links.link2Pdf3);
+      setLink2Pdf4(links.link2Pdf4);
+      setLink2Pdf5(links.link2Pdf5);
+
+      const updatedPdfData = {
+        pdfData1: links.linkPdf1,
+        pdfData2: links.linkPdf2,
+        pdfData3: links.linkPdf3,
+        pdfData4: links.linkPdf4,
+        pdfData5: links.linkPdf5,
+        pdfEsc1: links.link2Pdf1,
+        pdfEsc2: links.link2Pdf2,
+        pdfEsc3: links.link2Pdf3,
+        pdfEsc4: links.link2Pdf4,
+        pdfEsc5: links.link2Pdf5
+      };
+
+      setPdfData(updatedPdfData);
+
+      const newProcess = {
+        paymentData,
+        timestamp: new Date().toISOString(),
+        userData,
+        processData,
+        valueData,
+        valorCalculos,
+        pdfData: updatedPdfData
+      };
+
+      const response = await axios.post(apiUrl, newProcess);
+      console.log('Usuário criado:', response.data);
+    } catch (error) {
+      console.error('Erro ao enviar os dados do usuário:', error);
+    }
+  };
+
+  // Função para realizar o PUT e atualizar a assinatura
+  const atualizarPlano = async (novoPlano) => {
+    try {
+      const objectId = paymentData.idApp;  // Ensure this is valid and correct
+
+      const response = await axios.put(`${apiUrl}${objectId}`, {
+        paymentData: {
+          idApp: stateId,
+          assinatura: novoPlano
+        }
+      });
+      console.log('Assinatura atualizada:', response.data);
+    } catch (error) {
+      if (error.response) {
+        console.error('Erro ao atualizar assinatura:', error.response.data);
+        console.error('Status:', error.response.status);
+        console.error('Cabeçalhos:', error.response.headers);
+      } else if (error.request) {
+        console.error('Erro ao atualizar assinatura (sem resposta):', error.request);
+      } else {
+        console.error('Erro ao atualizar assinatura:', error.message);
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    if (paymentCompletedUm && !paymentCompletedDois && !paymentCompletedTres) {
+      setPlano("Starter");
+      atualizarPlano("Starter");
+    } else if (paymentCompletedDois && !paymentCompletedUm && !paymentCompletedTres) {
+      setPlano("Builder");
+      atualizarPlano("Builder");
+    } else if (paymentCompletedDois && paymentCompletedUm && !paymentCompletedTres) {
+      setPlano("Builder");
+      atualizarPlano("Builder");
+    } else if (paymentCompletedTres && !paymentCompletedUm && !paymentCompletedDois) {
+      setPlano("Specialist");
+      atualizarPlano("Specialist");
+    } else if (paymentCompletedTres && !paymentCompletedUm && paymentCompletedDois) {
+      setPlano("Specialist");
+      atualizarPlano("Specialist");
+    } else if (paymentCompletedTres && paymentCompletedUm && paymentCompletedDois) {
+      setPlano("Specialist");
+      atualizarPlano("Specialist");
+    }
+  }, [paymentCompletedUm, paymentCompletedDois, paymentCompletedTres]);
+
+
+  const handleEnviarDados = () => {
+    handleEnvioDados();
+  };
+
 
 
 
@@ -5421,10 +5800,7 @@ const App = () => {
                 <input
                   id="cpf"
                   name="cpf"
-                  onChange={(event) => {
-                    handleValorChange(event, setCpf);
-                    handleChange(event);
-                  }}
+                  onChange={handleChangeCPF}
                   type="text"
                   value={cpf}
                   required
@@ -5442,49 +5818,77 @@ const App = () => {
               <div className="inputs-dados">
                 <p>
                   Nº Processo:
-                  <FaRegQuestionCircle
-                    onMouseEnter={() => setCalcDuvida(2)}
-                    onMouseLeave={() => setCalcDuvida(0)}
-                    style={{ marginLeft: '5px', cursor: 'pointer' }}
-                  />
-                  <div className="erro">{processoErro}</div></p>
+                  <div className="erro">{processoErro}</div>
+                </p>
                 <input
                   id="processo"
-                  onChange={(event) => handleValorChange(event, setProcesso)}
+                  onChange={(event) => handleValorChangeProcesso(event, setProcesso)}
                   type="text"
                   value={processo}
                 />
               </div>
               <div className="inputs-dados">
                 <p>
-                  Comarca:
-                  <FaRegQuestionCircle
-                    onMouseEnter={() => setCalcDuvida(3)}
-                    onMouseLeave={() => setCalcDuvida(0)}
-                    style={{ marginLeft: '5px', cursor: 'pointer' }}
-                  />
-                  <div className="erro">{comarcaErro}</div></p>
-                <input
-                  id="comarca"
-                  onChange={(event) => handleTextChange(event, setComarca)}
-                  type="text"
-                  value={comarca}
-                />
-              </div>
-              <div className="inputs-dados">
-                <p>
                   Vara:
-                  <FaRegQuestionCircle
-                    onMouseEnter={() => setCalcDuvida(4)}
-                    onMouseLeave={() => setCalcDuvida(0)}
-                    style={{ marginLeft: '5px', cursor: 'pointer' }}
-                  />
                   <div className="erro">{varaErro}</div></p>
                 <input
                   id="vara"
                   onChange={(event) => handleTextChange(event, setVara)}
                   type="text"
                   value={vara}
+                />
+              </div>
+              <div className="inputs-dados">
+                <p>Comarca:
+                  <div className="erro">{comarcaErro}</div>
+                </p>
+                <input
+                  id="comarca"
+                  name="comarca"
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    const formattedValue = capitalizeWords(value);
+                    setComarca(formattedValue);
+                  }}
+                  value={comarca}
+                  type="text"
+                />
+              </div>
+              <div className="inputs-dados">
+                <p>Fonte Pagadora:
+                  <div className="erro">{fontePagadoraErro}</div>
+                </p>
+                <input
+                  id="fontePagadora"
+                  name="fontePagadora"
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    const formattedValue = capitalizeWords(value);
+                    setFontePagadora(formattedValue);
+                  }}
+                  value={fontePagadora}
+                  type="text"
+                />
+              </div>
+              <div className="inputs-dados">
+                <p>CNPJ: <div className="erro">{cnpjErro}</div></p>
+                <input
+                  id="cnpj"
+                  name="cnpj"
+                  onChange={handleCNPJChange}
+                  type="text"
+                  value={formatarCNPJ(cnpj)}
+                  required
+                />
+              </div>
+              <div className="inputs-dados">
+                <p>INSS Reclamante (Opcional):
+                </p>
+                <input
+                  id="INSS"
+                  onChange={(event) => handleValorChange(event, setINSS)}
+                  type="text"
+                  value={formatCurrency(INSS)}
                 />
               </div>
               <div className="inputs-dados">
@@ -5495,6 +5899,7 @@ const App = () => {
                     onMouseLeave={() => setCalcDuvida(0)}
                     style={{ marginLeft: '5px', cursor: 'pointer' }}
                   />
+                  <div className="erro">{brutoHomologadoErro}</div>
                 </p>
                 <input
                   id="bruto"
@@ -5511,6 +5916,7 @@ const App = () => {
                     onMouseLeave={() => setCalcDuvida(0)}
                     style={{ marginLeft: '5px', cursor: 'pointer' }}
                   />
+                  <div className="erro">{tributavelHomologadoErro}</div>
                 </p>
                 <input
                   id="trib"
@@ -5527,14 +5933,20 @@ const App = () => {
                     onMouseLeave={() => setCalcDuvida(0)}
                     style={{ marginLeft: '5px', cursor: 'pointer' }}
                   />
+                  <div className="erro">{numeroDeMesesErro}</div>
                 </p>
                 <input
                   id="meses"
                   type="text"
                   value={numeroDeMeses}
-                  onChange={(e) => setNumeroDeMeses(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const onlyNumbers = value.replace(/\D/g, ''); // Remove any non-numeric characters
+                    setNumeroDeMeses(onlyNumbers);
+                  }}
                 />
               </div>
+
             </div>
           </div>
           <div className="env-selects">
@@ -5910,7 +6322,7 @@ const App = () => {
           </div>
           {loading && <div className="loading-spinner"></div>}
           <br />
-          <div disabled className="button" onClick={handleSendApi}>
+          <div disabled className="button" onClick={handleEnviarDados}>
             <p>Calcular</p>
             <FaArrowRight width={16} />
           </div>
@@ -6093,7 +6505,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2
   },
   tableRow: {
-    flexDirection: "row"
+    flexDirection: "row",
   },
   tableCol: {
     width: "25%",
@@ -6109,6 +6521,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'right',
     paddingRight: 5,
+  },
+  tableCellData: {
+    marginTop: 5,
+    marginBottom: 5,
+    fontSize: 10,
+    textAlign: 'Left',
+    paddingLeft: 5,
   },
   tableCellHeader: {
     marginTop: 5,
@@ -6137,7 +6556,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
   },
   logo: {
-    width: "30%",
+    width: '30%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 
@@ -6240,7 +6661,17 @@ const stylesEsc = StyleSheet.create({
     textAlign: 'center',
     textDecoration: 'underline',
   },
+  tableImg: {
+    flex: 1,
+    justifyContent: 'center',  // Centraliza verticalmente
+    alignItems: 'center',      // Centraliza horizontalmente
+    display: 'flex',
+    marginTop: 10,
+    width: '100%',
+  },
   logo: {
-    width: "30%",
-  }
+    width: '30%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
 });
